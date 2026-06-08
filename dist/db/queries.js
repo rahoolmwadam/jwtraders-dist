@@ -63,7 +63,7 @@ order by l.date desc`,
     SUM(CASE WHEN amount < 0  THEN amount ELSE 0 END) AS withdraw_sum,
     SUM(amount) as balance_sum
 FROM loans, customers c 
-where c.customer_id  = Loans.customer_id and
+where c.customer_id  = loans.customer_id and
 (c.email = ? or 1 = ?)`,
     GET_OPEN_ORDERS: `select * from open_orders oo, instruments i where oo.market_type = ? and oo.instrument_id = i.instrument_id order by i.instrument_name asc, oo.buy_date asc`,
     GET_OPEN_ORDER_BY_ID: 'SELECT * FROM open_orders WHERE order_id = ?',
