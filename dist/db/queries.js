@@ -2,19 +2,19 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.queries = void 0;
 exports.queries = {
-    GET_CUSTOMERS: 'SELECT * FROM Customers order by updated_at desc',
-    GET_CUSTOMER_BY_ID: 'SELECT * FROM Customers WHERE customer_id = ?',
+    GET_CUSTOMERS: 'SELECT * FROM customers order by updated_at desc',
+    GET_CUSTOMER_BY_ID: 'SELECT * FROM customers WHERE customer_id = ?',
     CREATE_CUSTOMER: `
-    INSERT INTO Customers (name, email, address, status, kyc_status)
+    INSERT INTO customers (name, email, address, status, kyc_status)
     VALUES (?, ?, ?, ?, ?)`,
     UPDATE_CUSTOMER: `
-    UPDATE Customers SET name=?, email=?, address=?, status=?, kyc_status=?
+    UPDATE customers SET name=?, email=?, address=?, status=?, kyc_status=?
     WHERE customer_id=?`,
-    DELETE_CUSTOMER: 'DELETE FROM Customers WHERE customer_id=?',
+    DELETE_CUSTOMER: 'DELETE FROM customers WHERE customer_id=?',
     GET_CUSTOMER_INVESTMENT: `SELECT 
         c.customer_id, c.name, c.email, c.address, c.status, c.kyc_status,
         i.investment_id, i.amount, i.date
-      FROM Customers c
+      FROM customers c
       LEFT JOIN Investments i ON c.customer_id = i.customer_id
       WHERE c.customer_id = ?`,
     GET_LOAN_CUSTOMERS: `
@@ -27,42 +27,42 @@ exports.queries = {
 `,
     GET_INVESTMENTS: `
     SELECT i.*,  c.name as customer_name, (case when amount > 0 then 'DEPOSIT' else 'WITHDRAW' end) as transaction_type
-FROM Investments i, customers c WHERE i.customer_id = c.customer_id 
+FROM investments i, customers c WHERE i.customer_id = c.customer_id 
 and (c.email = ? or 1 = ?)
 order by i.date desc
   `,
-    GET_INVESTMENT_BY_ID: 'SELECT * FROM Investments WHERE investment_id = ?',
+    GET_INVESTMENT_BY_ID: 'SELECT * FROM investments WHERE investment_id = ?',
     CREATE_INVESTMENT: `
-    INSERT INTO Investments (customer_id, amount, date)
+    INSERT INTO investments (customer_id, amount, date)
     VALUES (?, ?, ?)`,
     UPDATE_INVESTMENT: `
-    UPDATE Investments SET customer_id=?, amount=?, date=?
+    UPDATE investments SET customer_id=?, amount=?, date=?
     WHERE investment_id=?`,
-    DELETE_INVESTMENT: 'DELETE FROM Investments WHERE investment_id=?',
+    DELETE_INVESTMENT: 'DELETE FROM investments WHERE investment_id=?',
     GET_INVESTMENT_BALANCES: `SELECT 
     SUM(CASE WHEN amount > 0 THEN amount ELSE 0 END) AS deposit_sum,
     SUM(CASE WHEN amount < 0  THEN amount ELSE 0 END) AS withdraw_sum,
     SUM(amount) as balance_sum
-FROM Investments, Customers
+FROM investments, customers
 where investments.customer_id  = customers.customer_id and
 (customers.email = ? or 1 = ?);`,
     GET_LOANS: `SELECT l.*,  c.name as customer_name, (case when amount > 0 then 'DEPOSIT' else 'WITHDRAW' end) as transaction_type
-FROM Loans l, customers c WHERE l.customer_id = c.customer_id 
+FROM loans l, customers c WHERE l.customer_id = c.customer_id 
 and (c.email = ? or  1 = ?)
 order by l.date desc`,
-    GET_LOAN_BY_ID: 'SELECT * FROM Loans WHERE loan_id = ?',
+    GET_LOAN_BY_ID: 'SELECT * FROM loans WHERE loan_id = ?',
     CREATE_LOAN: `
-    INSERT INTO Loans (customer_id, amount, date)
+    INSERT INTO loans (customer_id, amount, date)
     VALUES (?, ?, ?)`,
     UPDATE_LOAN: `
-    UPDATE Loans SET customer_id=?, amount=?, date=?
+    UPDATE loans SET customer_id=?, amount=?, date=?
     WHERE loan_id=?`,
-    DELETE_LOAN: 'DELETE FROM Loans WHERE loan_id=?',
+    DELETE_LOAN: 'DELETE FROM loans WHERE loan_id=?',
     GET_LOAN_BALANCES: `SELECT 
     SUM(CASE WHEN amount > 0 THEN amount ELSE 0 END) AS deposit_sum,
     SUM(CASE WHEN amount < 0  THEN amount ELSE 0 END) AS withdraw_sum,
     SUM(amount) as balance_sum
-FROM Loans, customers c 
+FROM loans, customers c 
 where c.customer_id  = Loans.customer_id and
 (c.email = ? or 1 = ?)`,
     GET_OPEN_ORDERS: `select * from open_orders oo, instruments i where oo.market_type = ? and oo.instrument_id = i.instrument_id order by i.instrument_name asc, oo.buy_date asc`,
