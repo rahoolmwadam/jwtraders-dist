@@ -1,0 +1,1 @@
+import{Ib as o,Jb as a,fc as d,kb as t}from"./chunk-G63URPE4.js";var i=class n{static \u0275fac=function(e){return new(e||n)};static \u0275cmp=t({type:n,selectors:[["app-bondfd"]],decls:2,vars:0,template:function(e,f){e&1&&(o(0,"p"),d(1,"coming soon!"),a())},encapsulation:2})};export{i as Bondfd};

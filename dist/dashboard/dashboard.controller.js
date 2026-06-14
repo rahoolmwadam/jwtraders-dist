@@ -23,6 +23,9 @@ let DashboardController = class DashboardController {
     findMain() {
         return this.dashboardService.findMain();
     }
+    findCustomerProfits() {
+        return this.dashboardService.findCustomerProfits();
+    }
 };
 exports.DashboardController = DashboardController;
 __decorate([
@@ -37,6 +40,12 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], DashboardController.prototype, "findMain", null);
+__decorate([
+    (0, common_1.Get)('customer-profits'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], DashboardController.prototype, "findCustomerProfits", null);
 exports.DashboardController = DashboardController = __decorate([
     (0, common_1.Controller)('api/dashboard'),
     __metadata("design:paramtypes", [dashboard_service_1.DashboardService])

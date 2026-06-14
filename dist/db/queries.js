@@ -65,7 +65,91 @@ order by l.date desc`,
 FROM loans, customers c 
 where c.customer_id  = loans.customer_id and
 (c.email = ? or 1 = ?)`,
-    GET_OPEN_ORDERS: `select * from open_orders oo, instruments i where oo.market_type = ? and oo.instrument_id = i.instrument_id order by i.instrument_name asc, oo.buy_date asc`,
+    GET_LOAN_ORDERS: `select
+	buy_date,
+	name, 
+	oo.market_type,
+	instrument_name,
+	CASE 
+        WHEN oo.market_type IN ('us', 'crypto') THEN oo.buy_price * oo.buy_qty * sp.usd_value 
+        ELSE oo.buy_price * oo.buy_qty 
+    END AS capital
+from
+	open_orders oo
+left join instruments i on
+	i.instrument_id = oo.instrument_id
+left join customers c on
+	c.customer_id = oo.customer_id
+left join system_params sp on 
+	oo.market_type = sp.market_type 
+where
+	oo.customer_id is not null 
+order by
+	name asc,
+	oo.buy_date asc;`,
+    GET_TOTAL_LOAN_ORDERS: `
+select
+	name, 
+	oo.market_type,
+	count(oo.order_id) as total_orders,
+	SUM(CASE 
+        WHEN oo.market_type IN ('us', 'crypto') THEN oo.buy_price * oo.buy_qty * sp.usd_value 
+        ELSE oo.buy_price * oo.buy_qty 
+    END) AS total_capital
+from
+	open_orders oo
+left join instruments i on
+	i.instrument_id = oo.instrument_id
+left join customers c on
+	c.customer_id = oo.customer_id
+left join system_params sp on 
+	oo.market_type = sp.market_type 
+where oo.customer_id is not null
+group by name, market_type, usd_value
+order by
+	name asc, market_type desc;`,
+    GET_CUSTOMER_LOAN_TOTAL_ORDERS: `
+select name, sum(amount) as total_loan from loans l
+left join customers c on c.customer_id = l.customer_id 
+group by name;`,
+    GET_CUSTOMER_LOAN_SELL_TOTAL_ORDERS: `
+
+select
+	*,
+	CASE 
+        WHEN oo.market_type IN ('us', 'crypto') THEN oo.buy_price * oo.buy_qty * sp.usd_value 
+        ELSE oo.buy_price * oo.buy_qty 
+    END AS capital
+from
+	sell_orders oo
+left join instruments i on
+	i.instrument_id = oo.instrument_id
+left join customers c on
+	c.customer_id = oo.customer_id
+left join system_params sp on 
+	oo.market_type = sp.market_type 
+where
+	oo.customer_id is not null 
+order by
+	name asc,
+	oo.buy_date asc;		
+  `,
+    GET_OPEN_ORDERS: `
+  select
+	*
+from
+	open_orders oo
+left join instruments i on
+	i.instrument_id = oo.instrument_id
+left join customers c on
+	c.customer_id = oo.customer_id
+where
+	oo.market_type = ?
+	and oo.instrument_id = i.instrument_id
+order by
+	i.instrument_name asc,
+	oo.buy_date asc
+  `,
     GET_OPEN_ORDER_BY_ID: 'SELECT * FROM open_orders WHERE order_id = ?',
     CREATE_OPEN_ORDER: `
     INSERT INTO open_orders
@@ -123,5 +207,10 @@ WHERE instrument_id = ?
     DELETE_INSTRUMENT: 'DELETE FROM instruments WHERE instrument_id=?',
     GET_DASHBORAD_DATA: `select * from dashboard_vw`,
     GET_DASHBORAD_MAIN_DATA: `select * from dashboard_main_vw where market_type = 'MAIN'`,
+    GET_CUSTOMER_PROFITS: `
+  select * from sell_orders so 
+left join customer_profits cp on cp.sell_order_id = so.sell_order_id 
+left join customers c on c.customer_id = cp.customer_id ;
+  `
 };
 //# sourceMappingURL=queries.js.map

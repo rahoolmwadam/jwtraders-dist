@@ -22,4 +22,8 @@ export declare class LoansService {
         deleted: boolean;
     }>;
     getBalances(user: any): Promise<any>;
+    getLoanOrders(user: any): Promise<import("mysql2").QueryResult>;
+    getTotalLoanOrders(user: any): Promise<import("mysql2").QueryResult>;
+    getCustomerTotalLoanOrders(user: any): Promise<import("mysql2").QueryResult>;
+    getCustomerTotalLoanSellOrders(user: any): Promise<import("mysql2").QueryResult>;
 }

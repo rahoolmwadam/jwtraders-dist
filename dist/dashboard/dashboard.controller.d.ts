@@ -4,4 +4,5 @@ export declare class DashboardController {
     constructor(dashboardService: DashboardService);
     findAll(): Promise<import("mysql2").QueryResult>;
     findMain(): Promise<any>;
+    findCustomerProfits(): Promise<import("mysql2").QueryResult>;
 }

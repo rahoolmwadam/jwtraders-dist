@@ -33,6 +33,22 @@ let LoansController = class LoansController {
         const user = req['user'];
         return this.loansService.getBalances(user);
     }
+    getLoanOrders(req) {
+        const user = req['user'];
+        return this.loansService.getLoanOrders(user);
+    }
+    getTotalLoanOrders(req) {
+        const user = req['user'];
+        return this.loansService.getTotalLoanOrders(user);
+    }
+    getCustomerTotalLoanOrders(req) {
+        const user = req['user'];
+        return this.loansService.getCustomerTotalLoanOrders(user);
+    }
+    getCustomerTotalLoanSellOrders(req) {
+        const user = req['user'];
+        return this.loansService.getCustomerTotalLoanSellOrders(user);
+    }
     findOne(id) {
         return this.loansService.findOne(+id);
     }
@@ -65,6 +81,34 @@ __decorate([
     __metadata("design:paramtypes", [Request]),
     __metadata("design:returntype", void 0)
 ], LoansController.prototype, "getBalances", null);
+__decorate([
+    (0, common_1.Get)('loan-orders'),
+    __param(0, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Request]),
+    __metadata("design:returntype", void 0)
+], LoansController.prototype, "getLoanOrders", null);
+__decorate([
+    (0, common_1.Get)('total-loan-orders'),
+    __param(0, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Request]),
+    __metadata("design:returntype", void 0)
+], LoansController.prototype, "getTotalLoanOrders", null);
+__decorate([
+    (0, common_1.Get)('customer-total-loan-orders'),
+    __param(0, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Request]),
+    __metadata("design:returntype", void 0)
+], LoansController.prototype, "getCustomerTotalLoanOrders", null);
+__decorate([
+    (0, common_1.Get)('customer-total-loan-sell-orders'),
+    __param(0, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Request]),
+    __metadata("design:returntype", void 0)
+], LoansController.prototype, "getCustomerTotalLoanSellOrders", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),

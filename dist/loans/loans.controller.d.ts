@@ -12,6 +12,10 @@ export declare class LoansController {
     }>;
     findAll(req: Request): Promise<import("mysql2").QueryResult>;
     getBalances(req: Request): Promise<any>;
+    getLoanOrders(req: Request): Promise<import("mysql2").QueryResult>;
+    getTotalLoanOrders(req: Request): Promise<import("mysql2").QueryResult>;
+    getCustomerTotalLoanOrders(req: Request): Promise<import("mysql2").QueryResult>;
+    getCustomerTotalLoanSellOrders(req: Request): Promise<import("mysql2").QueryResult>;
     findOne(id: string): Promise<any>;
     update(id: string, updateLoanDto: UpdateLoanDto): Promise<{
         customer_id?: number | undefined;

@@ -20,6 +20,10 @@ export declare const queries: {
     UPDATE_LOAN: string;
     DELETE_LOAN: string;
     GET_LOAN_BALANCES: string;
+    GET_LOAN_ORDERS: string;
+    GET_TOTAL_LOAN_ORDERS: string;
+    GET_CUSTOMER_LOAN_TOTAL_ORDERS: string;
+    GET_CUSTOMER_LOAN_SELL_TOTAL_ORDERS: string;
     GET_OPEN_ORDERS: string;
     GET_OPEN_ORDER_BY_ID: string;
     CREATE_OPEN_ORDER: string;
@@ -44,4 +48,5 @@ export declare const queries: {
     DELETE_INSTRUMENT: string;
     GET_DASHBORAD_DATA: string;
     GET_DASHBORAD_MAIN_DATA: string;
+    GET_CUSTOMER_PROFITS: string;
 };

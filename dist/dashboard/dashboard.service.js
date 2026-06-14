@@ -19,6 +19,10 @@ let DashboardService = class DashboardService {
         const [results] = await pool_1.pool.query(queries_1.queries.GET_DASHBORAD_MAIN_DATA);
         return results[0];
     }
+    async findCustomerProfits() {
+        const [results] = await pool_1.pool.query(queries_1.queries.GET_CUSTOMER_PROFITS);
+        return results;
+    }
 };
 exports.DashboardService = DashboardService;
 exports.DashboardService = DashboardService = __decorate([

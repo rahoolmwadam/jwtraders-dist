@@ -51,6 +51,22 @@ let LoansService = class LoansService {
         const [rows] = await pool_1.pool.query(queries_1.queries.GET_LOAN_BALANCES, [email, isAdmin]);
         return rows[0];
     }
+    async getLoanOrders(user) {
+        const [rows] = await pool_1.pool.query(queries_1.queries.GET_LOAN_ORDERS);
+        return rows;
+    }
+    async getTotalLoanOrders(user) {
+        const [rows] = await pool_1.pool.query(queries_1.queries.GET_TOTAL_LOAN_ORDERS);
+        return rows;
+    }
+    async getCustomerTotalLoanOrders(user) {
+        const [rows] = await pool_1.pool.query(queries_1.queries.GET_CUSTOMER_LOAN_TOTAL_ORDERS);
+        return rows;
+    }
+    async getCustomerTotalLoanSellOrders(user) {
+        const [rows] = await pool_1.pool.query(queries_1.queries.GET_CUSTOMER_LOAN_SELL_TOTAL_ORDERS);
+        return rows;
+    }
 };
 exports.LoansService = LoansService;
 exports.LoansService = LoansService = __decorate([
