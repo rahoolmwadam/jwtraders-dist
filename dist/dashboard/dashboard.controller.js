@@ -26,6 +26,18 @@ let DashboardController = class DashboardController {
     findCustomerProfits() {
         return this.dashboardService.findCustomerProfits();
     }
+    findCustomerProfitsMonthly() {
+        return this.dashboardService.findCustomerProfitsMonthly();
+    }
+    findCustomerProfitsDaily() {
+        return this.dashboardService.findCustomerProfitsDaily();
+    }
+    findCustomerProfitsQuarterly() {
+        return this.dashboardService.findCustomerProfitsQuarterly();
+    }
+    findCustomerProfitsYearly() {
+        return this.dashboardService.findCustomerProfitsYearly();
+    }
 };
 exports.DashboardController = DashboardController;
 __decorate([
@@ -46,6 +58,30 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], DashboardController.prototype, "findCustomerProfits", null);
+__decorate([
+    (0, common_1.Get)('customer-profits-monthly'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], DashboardController.prototype, "findCustomerProfitsMonthly", null);
+__decorate([
+    (0, common_1.Get)('customer-profits-daily'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], DashboardController.prototype, "findCustomerProfitsDaily", null);
+__decorate([
+    (0, common_1.Get)('customer-profits-quarterly'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], DashboardController.prototype, "findCustomerProfitsQuarterly", null);
+__decorate([
+    (0, common_1.Get)('customer-profits-yearly'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], DashboardController.prototype, "findCustomerProfitsYearly", null);
 exports.DashboardController = DashboardController = __decorate([
     (0, common_1.Controller)('api/dashboard'),
     __metadata("design:paramtypes", [dashboard_service_1.DashboardService])

@@ -8,6 +8,8 @@ export declare class OpenOrdersService {
         buy_qty: number;
         buy_price: number;
         buy_date: string;
+        sell_placed: string;
+        reserved_placed: string;
         order_id: number;
     }>;
     findAll(marketType: string): Promise<import("mysql2/promise").QueryResult>;
@@ -19,6 +21,8 @@ export declare class OpenOrdersService {
         buy_qty?: number | undefined;
         buy_price?: number | undefined;
         buy_date?: string | undefined;
+        sell_placed?: string | undefined;
+        reserved_placed?: string | undefined;
         order_id: number;
     }>;
     remove(id: number): Promise<{

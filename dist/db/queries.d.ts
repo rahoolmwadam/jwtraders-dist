@@ -49,4 +49,8 @@ export declare const queries: {
     GET_DASHBORAD_DATA: string;
     GET_DASHBORAD_MAIN_DATA: string;
     GET_CUSTOMER_PROFITS: string;
+    GET_CUSTOMER_PROFITS_MONTHLY: string;
+    GET_CUSTOMER_PROFITS_DAILY: string;
+    GET_CUSTOMER_PROFITS_QUARTERLY: string;
+    GET_CUSTOMER_PROFITS_YEARLY: string;
 };

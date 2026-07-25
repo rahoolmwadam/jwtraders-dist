@@ -39,13 +39,13 @@ order by i.date desc
     UPDATE investments SET customer_id=?, amount=?, date=?
     WHERE investment_id=?`,
     DELETE_INVESTMENT: 'DELETE FROM investments WHERE investment_id=?',
-    GET_INVESTMENT_BALANCES: `SELECT 
-    SUM(CASE WHEN amount > 0 THEN amount ELSE 0 END) AS deposit_sum,
-    SUM(CASE WHEN amount < 0  THEN amount ELSE 0 END) AS withdraw_sum,
-    SUM(amount) as balance_sum
-FROM investments, customers
-where investments.customer_id  = customers.customer_id and
-(customers.email = ? or 1 = ?);`,
+    GET_INVESTMENT_BALANCES: `
+select
+	sum(deposit_sum) as deposit_sum,
+	sum(withdraw_sum) as withdraw_sum,
+	sum(balance_sum) as balance_sum,
+	sum(total_profit) as total_profit
+from investment_balance_vw bv where bv.email = ? or 1 = ?`,
     GET_LOANS: `SELECT l.*,  c.name as customer_name, (case when amount > 0 then 'DEPOSIT' else 'WITHDRAW' end) as transaction_type
 FROM loans l, customers c WHERE l.customer_id = c.customer_id 
 and (c.email = ? or  1 = ?)
@@ -58,13 +58,13 @@ order by l.date desc`,
     UPDATE loans SET customer_id=?, amount=?, date=?
     WHERE loan_id=?`,
     DELETE_LOAN: 'DELETE FROM loans WHERE loan_id=?',
-    GET_LOAN_BALANCES: `SELECT 
-    SUM(CASE WHEN amount > 0 THEN amount ELSE 0 END) AS deposit_sum,
-    SUM(CASE WHEN amount < 0  THEN amount ELSE 0 END) AS withdraw_sum,
-    SUM(amount) as balance_sum
-FROM loans, customers c 
-where c.customer_id  = loans.customer_id and
-(c.email = ? or 1 = ?)`,
+    GET_LOAN_BALANCES: `select
+	sum(deposit_sum) as deposit_sum,
+	sum(withdraw_sum) as withdraw_sum,
+	sum(balance_sum) as balance_sum,
+	sum(total_profit) as total_profit
+from loan_balance_vw bv
+where (bv.email = ? or 1 = ?)`,
     GET_LOAN_ORDERS: `select
 	buy_date,
 	name, 
@@ -109,9 +109,35 @@ group by name, market_type, usd_value
 order by
 	name asc, market_type desc;`,
     GET_CUSTOMER_LOAN_TOTAL_ORDERS: `
-select name, sum(amount) as total_loan from loans l
-left join customers c on c.customer_id = l.customer_id 
-group by name;`,
+SELECT 
+    c.customer_id,
+    c.name,
+    loan_totals.total_loan, -- No COALESCE needed here anymore since INNER JOIN guarantees a value
+    COALESCE(order_totals.total_invested, 0) AS total_invested,
+    loan_totals.total_loan - COALESCE(order_totals.total_invested, 0) as balance
+FROM customers c
+INNER JOIN (
+    SELECT 
+        customer_id, 
+        SUM(amount) AS total_loan
+    FROM loans
+    GROUP BY customer_id
+) loan_totals ON c.customer_id = loan_totals.customer_id
+LEFT JOIN (
+    SELECT 
+        oo.customer_id, 
+        SUM(
+            CASE 
+                WHEN LOWER(oo.market_type) IN ('crypto', 'us') 
+                THEN (oo.buy_qty * oo.buy_price) * CAST(sp.usd_value AS DECIMAL(18,10))
+                ELSE (oo.buy_qty * oo.buy_price)
+            END
+        ) AS total_invested
+    FROM jwtraders.open_orders oo
+    LEFT JOIN system_params sp on sp.market_type = oo.market_type 
+    WHERE oo.customer_id IS NOT NULL
+    GROUP BY oo.customer_id
+) order_totals ON c.customer_id = order_totals.customer_id;`,
     GET_CUSTOMER_LOAN_SELL_TOTAL_ORDERS: `
 
 select
@@ -153,11 +179,11 @@ order by
     GET_OPEN_ORDER_BY_ID: 'SELECT * FROM open_orders WHERE order_id = ?',
     CREATE_OPEN_ORDER: `
     INSERT INTO open_orders
-(instrument_id, market_type, buy_date, buy_qty, buy_price, customer_id)
-    VALUES (?, ?, ?, ?,?, ?)`,
+(instrument_id, market_type, buy_date, buy_qty, buy_price, customer_id, sell_placed, reserved_placed)
+    VALUES (?, ?, ?, ?,?, ?, ?, ?)`,
     UPDATE_OPEN_ORDER: `
    UPDATE open_orders
-SET instrument_id=?, market_type=?, buy_date=?, buy_qty=?, buy_price=?, customer_id=?
+SET instrument_id=?, market_type=?, buy_date=?, buy_qty=?, buy_price=?, customer_id=?, sell_placed=?, reserved_placed=?
 WHERE order_id = ?
 `,
     DELETE_OPEN_ORDER: 'DELETE FROM open_orders WHERE order_id=?',
@@ -211,6 +237,10 @@ WHERE instrument_id = ?
   select * from sell_orders so 
 left join customer_profits cp on cp.sell_order_id = so.sell_order_id 
 left join customers c on c.customer_id = cp.customer_id ;
-  `
+  `,
+    GET_CUSTOMER_PROFITS_MONTHLY: `select * from monthly_profits_vw;`,
+    GET_CUSTOMER_PROFITS_DAILY: `select * from daily_profits_vw;`,
+    GET_CUSTOMER_PROFITS_QUARTERLY: `select * from quarterly_profits_vw;`,
+    GET_CUSTOMER_PROFITS_YEARLY: `select * from yearly_profits_vw;`
 };
 //# sourceMappingURL=queries.js.map

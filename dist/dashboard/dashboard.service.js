@@ -23,6 +23,22 @@ let DashboardService = class DashboardService {
         const [results] = await pool_1.pool.query(queries_1.queries.GET_CUSTOMER_PROFITS);
         return results;
     }
+    async findCustomerProfitsMonthly() {
+        const [results] = await pool_1.pool.query(queries_1.queries.GET_CUSTOMER_PROFITS_MONTHLY);
+        return results;
+    }
+    async findCustomerProfitsDaily() {
+        const [results] = await pool_1.pool.query(queries_1.queries.GET_CUSTOMER_PROFITS_DAILY);
+        return results;
+    }
+    async findCustomerProfitsQuarterly() {
+        const [results] = await pool_1.pool.query(queries_1.queries.GET_CUSTOMER_PROFITS_QUARTERLY);
+        return results;
+    }
+    async findCustomerProfitsYearly() {
+        const [results] = await pool_1.pool.query(queries_1.queries.GET_CUSTOMER_PROFITS_YEARLY);
+        return results;
+    }
 };
 exports.DashboardService = DashboardService;
 exports.DashboardService = DashboardService = __decorate([

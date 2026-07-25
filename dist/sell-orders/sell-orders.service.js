@@ -111,9 +111,7 @@ let SellOrdersService = class SellOrdersService {
                 net_profit = net_profit * order.usd_value;
             }
             if (order.customer_id) {
-                let loan_profit = net_profit * 0.5;
-                net_profit = net_profit - loan_profit;
-                customerProfitsData.push([order.customer_id, loan_profit, order.sell_date, order.sell_order_id]);
+                customerProfitsData.push([order.customer_id, net_profit, order.sell_date, order.sell_order_id]);
             }
             for (let customer_id in customerContribMap) {
                 const profit = (net_profit * customerContribMap[customer_id]).toFixed(10);

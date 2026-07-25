@@ -12,9 +12,9 @@ const queries_1 = require("../db/queries");
 const pool_1 = require("../db/pool");
 let OpenOrdersService = class OpenOrdersService {
     async create(dto) {
-        const { instrument_id, buy_qty, buy_price, buy_date, market_type, customer_id } = dto;
+        const { instrument_id, buy_qty, buy_price, buy_date, market_type, customer_id, sell_placed, reserved_placed } = dto;
         const [result] = await pool_1.pool.query(queries_1.queries.CREATE_OPEN_ORDER, [
-            instrument_id, market_type, buy_date, buy_qty, buy_price, customer_id
+            instrument_id, market_type, buy_date, buy_qty, buy_price, customer_id, sell_placed, reserved_placed
         ]);
         return { order_id: result.insertId, ...dto };
     }
@@ -27,9 +27,9 @@ let OpenOrdersService = class OpenOrdersService {
         return rows[0];
     }
     async update(id, dto) {
-        const { instrument_id, buy_qty, buy_price, buy_date, market_type, customer_id } = dto;
+        const { instrument_id, buy_qty, buy_price, buy_date, market_type, customer_id, sell_placed, reserved_placed } = dto;
         await pool_1.pool.query(queries_1.queries.UPDATE_OPEN_ORDER, [
-            instrument_id, market_type, buy_date, buy_qty, buy_price, customer_id, id
+            instrument_id, market_type, buy_date, buy_qty, buy_price, customer_id, sell_placed, reserved_placed, id
         ]);
         return { order_id: id, ...dto };
     }

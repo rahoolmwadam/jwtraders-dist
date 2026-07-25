@@ -5,4 +5,6 @@ export declare class CreateOpenOrderDto {
     buy_qty: number;
     buy_price: number;
     buy_date: string;
+    sell_placed: string;
+    reserved_placed: string;
 }
