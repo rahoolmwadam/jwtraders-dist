@@ -2,7 +2,14 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.queries = void 0;
 exports.queries = {
-    GET_CUSTOMERS: 'SELECT * FROM customers order by updated_at desc',
+    GET_CUSTOMERS: `
+  SELECT c.*, 
+COALESCE(ibv.deposit_sum, 0) as deposit_sum, 
+COALESCE(ibv.withdraw_sum, 0) as withdraw_sum, 
+COALESCE(ibv.total_profit, 0) as total_profit, 
+COALESCE(ibv.balance_sum, 0) as balance_sum  
+FROM customers c left join investment_balance_vw ibv on c.customer_id = ibv.customer_id order by updated_at desc;
+  `,
     GET_CUSTOMER_BY_ID: 'SELECT * FROM customers WHERE customer_id = ?',
     CREATE_CUSTOMER: `
     INSERT INTO customers (name, email, address, status, kyc_status)
