@@ -3,12 +3,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.queries = void 0;
 exports.queries = {
     GET_CUSTOMERS: `
-  SELECT c.*, 
-COALESCE(ibv.deposit_sum, 0) as deposit_sum, 
-COALESCE(ibv.withdraw_sum, 0) as withdraw_sum, 
-COALESCE(ibv.total_profit, 0) as total_profit, 
-COALESCE(ibv.balance_sum, 0) as balance_sum  
-FROM customers c left join investment_balance_vw ibv on c.customer_id = ibv.customer_id order by updated_at desc;
+    SELECT c.*, 
+  COALESCE(ibv.deposit_sum, 0) as deposit_sum, 
+  COALESCE(ibv.withdraw_sum, 0) as withdraw_sum, 
+  COALESCE(ibv.total_profit, 0) as total_profit, 
+  COALESCE(ibv.balance_sum, 0) as balance_sum  
+  FROM customers c left join investment_balance_vw ibv on c.customer_id = ibv.customer_id order by updated_at desc;
   `,
     GET_CUSTOMER_BY_ID: 'SELECT * FROM customers WHERE customer_id = ?',
     CREATE_CUSTOMER: `
@@ -25,7 +25,12 @@ FROM customers c left join investment_balance_vw ibv on c.customer_id = ibv.cust
       LEFT JOIN Investments i ON c.customer_id = i.customer_id
       WHERE c.customer_id = ?`,
     GET_LOAN_CUSTOMERS: `
-  select distinct customers.customer_id, customers.name from customers, loans where customers.customer_id = loans.customer_id
+  SELECT c.*, 
+  COALESCE(lbv.deposit_sum, 0) as deposit_sum, 
+  COALESCE(lbv.withdraw_sum, 0) as withdraw_sum, 
+  COALESCE(lbv.total_profit, 0) as total_profit, 
+  COALESCE(lbv.balance_sum, 0) as balance_sum  
+  FROM loan_balance_vw lbv left join customers c on c.customer_id = lbv.customer_id order by updated_at desc;
 `,
     GET_CUSTOMER_CONTRIB: `select * from customer_contrib_vw`,
     BULK_INSERT_CUSTOMER_PROFITS: `
@@ -149,17 +154,13 @@ LEFT JOIN(
 	 SELECT 
         oo.customer_id, 
         SUM(
-            CASE 
-                WHEN LOWER(oo.market_type) IN ('crypto', 'us') 
-                THEN (oo.buy_qty * oo.buy_price) * CAST(sp.usd_value AS DECIMAL(18,10))
-                ELSE (oo.buy_qty * oo.buy_price)
-            END
+            cp.profit
         ) AS total_invested
     FROM jwtraders.sell_orders oo
-    LEFT JOIN system_params sp on sp.market_type = oo.market_type 
+    LEFT JOIN customer_profits cp on cp.customer_id = oo.customer_id and oo.sell_order_id = cp.sell_order_id 
     WHERE oo.customer_id IS NOT NULL
     GROUP BY oo.customer_id
-) closed_orders on c.customer_id  = closed_orders.customer_id `,
+) closed_orders on c.customer_id  = closed_orders.customer_id ; `,
     GET_CUSTOMER_LOAN_SELL_TOTAL_ORDERS: `
 
 select
