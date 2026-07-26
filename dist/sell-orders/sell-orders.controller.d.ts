@@ -28,6 +28,7 @@ export declare class SellOrdersController {
         sell_date?: string | undefined;
         sell_qty?: number | undefined;
         sell_price?: number | undefined;
+        loan_percent?: number | undefined;
         sell_order_id: number;
     }>;
     remove(id: string): Promise<{

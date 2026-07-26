@@ -21,17 +21,16 @@ const loans_module_1 = require("./loans/loans.module");
 const open_orders_module_1 = require("./open_orders/open_orders.module");
 const sell_orders_module_1 = require("./sell-orders/sell-orders.module");
 const system_parameters_module_1 = require("./system-parameters/system-parameters.module");
+const fs_1 = require("fs");
+const publicPath = (0, path_1.join)(process.cwd(), 'public/browser');
+console.log('📁 Checking Static Path:', publicPath);
+console.log('📄 index.html exists?:', (0, fs_1.existsSync)((0, path_1.join)(publicPath, 'index.html')));
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            serve_static_1.ServeStaticModule.forRoot({
-                rootPath: (0, path_1.join)(__dirname, '..', 'public/browser'),
-                renderPath: '/',
-                exclude: ['/api/(.*)']
-            }),
             auth_module_1.AuthModule,
             investments_module_1.InvestmentsModule,
             customers_module_1.CustomersModule,
@@ -40,7 +39,11 @@ exports.AppModule = AppModule = __decorate([
             instruments_module_1.InstrumentsModule,
             sell_orders_module_1.SellOrdersModule,
             system_parameters_module_1.SystemParametersModule,
-            dashboard_module_1.DashboardModule
+            dashboard_module_1.DashboardModule,
+            serve_static_1.ServeStaticModule.forRoot({
+                rootPath: publicPath,
+                exclude: ['/api/*path']
+            }),
         ],
         providers: [
             {

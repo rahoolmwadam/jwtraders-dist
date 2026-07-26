@@ -24,6 +24,7 @@ class CreateSellOrderDto {
     sell_date;
     sell_qty;
     sell_price;
+    loan_percent;
 }
 exports.CreateSellOrderDto = CreateSellOrderDto;
 __decorate([

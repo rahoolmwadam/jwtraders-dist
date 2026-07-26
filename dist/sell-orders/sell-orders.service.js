@@ -26,9 +26,9 @@ let SellOrdersService = class SellOrdersService {
         this.instrumentService = instrumentService;
     }
     async create(dto) {
-        const { order_id, instrument_id, buy_qty, buy_price, buy_date, market_type, customer_id, sell_price, sell_qty, sell_date } = dto;
+        const { order_id, instrument_id, buy_qty, buy_price, buy_date, market_type, customer_id, sell_price, sell_qty, sell_date, loan_percent } = dto;
         let queryParams = [
-            instrument_id, customer_id, market_type, buy_date, buy_qty, buy_price, sell_price, sell_qty, sell_date
+            instrument_id, customer_id, market_type, buy_date, buy_qty, buy_price, sell_price, sell_qty, sell_date, loan_percent
         ];
         const systemParams = await this.systemParametersService.findByMarket(market_type);
         if (systemParams) {
@@ -111,14 +111,15 @@ let SellOrdersService = class SellOrdersService {
                 net_profit = net_profit * order.usd_value;
             }
             if (order.customer_id) {
-                customerProfitsData.push([order.customer_id, net_profit, order.sell_date, order.sell_order_id]);
+                const loan_profit = order.net_profit_bl - (order.net_profit_bl * (1 - (order.loan_percent / 100)));
+                customerProfitsData.push([order.customer_id, loan_profit, order.sell_date, order.sell_order_id]);
             }
             for (let customer_id in customerContribMap) {
                 const profit = (net_profit * customerContribMap[customer_id]).toFixed(10);
                 customerProfitsData.push([customer_id, profit, order.sell_date, order.sell_order_id]);
             }
         }
-        const [result] = await pool_1.pool.query(queries_1.queries.BULK_INSERT_CUSTOMER_PROFITS, [customerProfitsData]);
+        await pool_1.pool.query(queries_1.queries.BULK_INSERT_CUSTOMER_PROFITS, [customerProfitsData]);
     }
 };
 exports.SellOrdersService = SellOrdersService;

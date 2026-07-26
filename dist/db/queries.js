@@ -186,11 +186,11 @@ order by
     GET_OPEN_ORDER_BY_ID: 'SELECT * FROM open_orders WHERE order_id = ?',
     CREATE_OPEN_ORDER: `
     INSERT INTO open_orders
-(instrument_id, market_type, buy_date, buy_qty, buy_price, customer_id, sell_placed, reserved_placed)
-    VALUES (?, ?, ?, ?,?, ?, ?, ?)`,
+(instrument_id, market_type, buy_date, buy_qty, buy_price, customer_id, sell_placed, reserved_placed, loan_percent)
+    VALUES (?, ?, ?, ?,?, ?, ?, ?, ?)`,
     UPDATE_OPEN_ORDER: `
    UPDATE open_orders
-SET instrument_id=?, market_type=?, buy_date=?, buy_qty=?, buy_price=?, customer_id=?, sell_placed=?, reserved_placed=?
+SET instrument_id=?, market_type=?, buy_date=?, buy_qty=?, buy_price=?, customer_id=?, sell_placed=?, reserved_placed=?, loan_percent=?
 WHERE order_id = ?
 `,
     DELETE_OPEN_ORDER: 'DELETE FROM open_orders WHERE order_id=?',
@@ -205,16 +205,16 @@ order by i.instrument_name asc, oo.buy_date asc
     GET_SELL_ORDER_BY_ID: 'SELECT * FROM sell_orders WHERE sell_order_id = ?',
     CREATE_SELL_ORDER: `
     INSERT INTO jwtraders.sell_orders
-    (instrument_id, customer_id, market_type, buy_date, buy_qty, buy_price, sell_price, sell_qty, sell_date, brokerage, charges, tax_percent, usd_value)
-    VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
+    (instrument_id, customer_id, market_type, buy_date, buy_qty, buy_price, sell_price, sell_qty, sell_date, loan_percent, brokerage, charges, tax_percent, usd_value)
+    VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
     UPDATE_SELL_ORDER: `
   UPDATE jwtraders.sell_orders
-SET instrument_id=?, customer_id=?, market_type=?, buy_date=?, buy_qty=?, buy_price=?, sell_price=?, sell_qty=?, sell_date=?
+SET instrument_id=?, customer_id=?, market_type=?, buy_date=?, buy_qty=?, buy_price=?, sell_price=?, sell_qty=?, sell_date=?, loan_percent=?
 WHERE sell_order_id IS ?;
 `,
     DELETE_SELL_ORDER: 'DELETE FROM sell_orders WHERE sell_order_id=?',
     BATCH_CREATE_SELL: `
-     INSERT INTO sell_orders (instrument_id, customer_id, market_type, buy_date, buy_qty, buy_price, sell_price, sell_qty, sell_date, is_average, brokerage, charges, tax_percent, usd_value)
+     INSERT INTO sell_orders (instrument_id, customer_id, market_type, buy_date, buy_qty, buy_price, sell_price, sell_qty, sell_date, loan_percent, brokerage, charges, tax_percent, usd_value)
       VALUES ?
   `,
     GET_BULK_SELL_ORDER_BY_ID: 'SELECT * FROM sell_orders WHERE sell_order_id IN (?)',

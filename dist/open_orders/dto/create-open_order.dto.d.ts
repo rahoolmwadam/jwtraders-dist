@@ -7,4 +7,5 @@ export declare class CreateOpenOrderDto {
     buy_date: string;
     sell_placed: string;
     reserved_placed: string;
+    loan_percent: number;
 }

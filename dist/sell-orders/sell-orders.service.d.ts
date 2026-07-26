@@ -24,6 +24,7 @@ export declare class SellOrdersService {
         sell_date?: string | undefined;
         sell_qty?: number | undefined;
         sell_price?: number | undefined;
+        loan_percent?: number | undefined;
         sell_order_id: number;
     }>;
     remove(id: number): Promise<{

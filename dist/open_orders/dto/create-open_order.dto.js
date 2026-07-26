@@ -20,6 +20,7 @@ class CreateOpenOrderDto {
     buy_date;
     sell_placed;
     reserved_placed;
+    loan_percent;
 }
 exports.CreateOpenOrderDto = CreateOpenOrderDto;
 __decorate([

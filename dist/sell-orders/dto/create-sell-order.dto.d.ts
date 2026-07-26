@@ -11,4 +11,5 @@ export declare class CreateSellOrderDto {
     sell_date: string;
     sell_qty: number;
     sell_price: number;
+    loan_percent: number;
 }
