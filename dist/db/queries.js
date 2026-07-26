@@ -121,7 +121,7 @@ SELECT
     c.name,
     loan_totals.total_loan, -- No COALESCE needed here anymore since INNER JOIN guarantees a value
     COALESCE(order_totals.total_invested, 0) AS total_invested,
-    loan_totals.total_loan - COALESCE(order_totals.total_invested, 0) as balance
+    loan_totals.total_loan - COALESCE(order_totals.total_invested, 0) + COALESCE(closed_orders.total_invested , 0) as balance
 FROM customers c
 INNER JOIN (
     SELECT 
@@ -144,7 +144,22 @@ LEFT JOIN (
     LEFT JOIN system_params sp on sp.market_type = oo.market_type 
     WHERE oo.customer_id IS NOT NULL
     GROUP BY oo.customer_id
-) order_totals ON c.customer_id = order_totals.customer_id;`,
+) order_totals ON c.customer_id = order_totals.customer_id
+LEFT JOIN(
+	 SELECT 
+        oo.customer_id, 
+        SUM(
+            CASE 
+                WHEN LOWER(oo.market_type) IN ('crypto', 'us') 
+                THEN (oo.buy_qty * oo.buy_price) * CAST(sp.usd_value AS DECIMAL(18,10))
+                ELSE (oo.buy_qty * oo.buy_price)
+            END
+        ) AS total_invested
+    FROM jwtraders.sell_orders oo
+    LEFT JOIN system_params sp on sp.market_type = oo.market_type 
+    WHERE oo.customer_id IS NOT NULL
+    GROUP BY oo.customer_id
+) closed_orders on c.customer_id  = closed_orders.customer_id `,
     GET_CUSTOMER_LOAN_SELL_TOTAL_ORDERS: `
 
 select
