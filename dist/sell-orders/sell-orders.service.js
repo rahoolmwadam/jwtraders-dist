@@ -71,13 +71,13 @@ let SellOrdersService = class SellOrdersService {
             instrumentMap[instrument.instrument_name] = instrument.instrument_id;
         }
         const data = orders.map(order => {
-            let { instrument_id, instrument, buy_qty, buy_price, buy_date, market_type, customer_id, sell_price, sell_date, is_average } = order;
+            let { instrument_id, instrument, buy_qty, buy_price, buy_date, market_type, customer_id, sell_price, sell_date, is_average, loan_percent } = order;
             let sell_qty = buy_qty;
             instrument_id = instrument_id ? instrument_id : instrumentMap[instrument];
             is_average = is_average ? is_average : 'N';
             customer_id = customer_id ? customer_id : null;
             let queryParams = [
-                instrument_id, customer_id, market_type, buy_date, buy_qty, buy_price, sell_price, sell_qty, sell_date, is_average
+                instrument_id, customer_id, market_type, buy_date, buy_qty, buy_price, sell_price, sell_qty, sell_date, is_average, loan_percent
             ];
             queryParams = [...queryParams, brokerage, charges, tax_percent, usd_value];
             return [
