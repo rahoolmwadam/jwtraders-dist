@@ -230,7 +230,7 @@ WHERE sell_order_id IS ?;
 `,
     DELETE_SELL_ORDER: 'DELETE FROM sell_orders WHERE sell_order_id=?',
     BATCH_CREATE_SELL: `
-     INSERT INTO sell_orders (instrument_id, customer_id, market_type, buy_date, buy_qty, buy_price, sell_price, sell_qty, sell_date, loan_percent, brokerage, charges, tax_percent, usd_value)
+     INSERT INTO sell_orders (instrument_id, customer_id, market_type, buy_date, buy_qty, buy_price, sell_price, sell_qty, sell_date, is_average,loan_percent, brokerage, charges, tax_percent, usd_value)
       VALUES ?
   `,
     GET_BULK_SELL_ORDER_BY_ID: 'SELECT * FROM sell_orders WHERE sell_order_id IN (?)',

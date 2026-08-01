@@ -9,7 +9,7 @@ export declare class SellOrdersController {
     uploadFile(marketType: any, file: any): Promise<{
         marketType: any;
         data: any[];
-        affetedRows: Promise<number[]>;
+        affetedRows: number[];
     }>;
     batchCreate(createSellOrderDto: CreateSellOrderDto[]): Promise<number[]>;
     create(createSellOrderDto: CreateSellOrderDto): Promise<any>;
