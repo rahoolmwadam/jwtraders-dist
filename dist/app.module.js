@@ -21,7 +21,12 @@ const loans_module_1 = require("./loans/loans.module");
 const open_orders_module_1 = require("./open_orders/open_orders.module");
 const sell_orders_module_1 = require("./sell-orders/sell-orders.module");
 const system_parameters_module_1 = require("./system-parameters/system-parameters.module");
+const config_1 = require("@nestjs/config");
+const schedule_1 = require("@nestjs/schedule");
+const mailer_1 = require("@nestjs-modules/mailer");
 const fs_1 = require("fs");
+const backup_service_1 = require("./backup.service");
+const app_controller_1 = require("./app.controller");
 const publicPath = (0, path_1.join)(process.cwd(), 'public/browser');
 console.log('📁 Checking Static Path:', publicPath);
 console.log('📄 index.html exists?:', (0, fs_1.existsSync)((0, path_1.join)(publicPath, 'index.html')));
@@ -44,13 +49,35 @@ exports.AppModule = AppModule = __decorate([
                 rootPath: publicPath,
                 exclude: ['/api/*path']
             }),
+            config_1.ConfigModule.forRoot({ isGlobal: true }),
+            schedule_1.ScheduleModule.forRoot(),
+            mailer_1.MailerModule.forRootAsync({
+                imports: [config_1.ConfigModule],
+                inject: [config_1.ConfigService],
+                useFactory: (config) => ({
+                    transport: {
+                        host: config.get('SMTP_HOST'),
+                        port: config.get('SMTP_PORT'),
+                        secure: false,
+                        auth: {
+                            user: config.get('SMTP_USER'),
+                            pass: config.get('SMTP_PASS'),
+                        },
+                    },
+                    defaults: {
+                        from: `"System Backup" <${config.get('SMTP_USER')}>`,
+                    },
+                }),
+            }),
         ],
         providers: [
             {
                 provide: core_1.APP_GUARD,
                 useClass: (0, passport_1.AuthGuard)('jwt'),
-            }
-        ]
+            },
+            backup_service_1.BackupService,
+        ],
+        controllers: [app_controller_1.AppController],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map
