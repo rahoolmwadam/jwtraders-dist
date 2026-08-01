@@ -34,7 +34,7 @@ exports.queries = {
 `,
     GET_CUSTOMER_CONTRIB: `select * from customer_contrib_vw`,
     BULK_INSERT_CUSTOMER_PROFITS: `
-  INSERT INTO customer_profits (customer_id, profit, sell_date, sell_order_id)
+  INSERT INTO customer_profits (customer_id, profit, sell_date, sell_order_id, is_loan)
   VALUES ?
 `,
     GET_INVESTMENTS: `

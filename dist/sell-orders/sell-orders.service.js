@@ -112,11 +112,11 @@ let SellOrdersService = class SellOrdersService {
             }
             if (order.customer_id) {
                 const loan_profit = order.net_profit_bl - (order.net_profit_bl * (1 - (order.loan_percent / 100)));
-                customerProfitsData.push([order.customer_id, loan_profit, order.sell_date, order.sell_order_id]);
+                customerProfitsData.push([order.customer_id, loan_profit, order.sell_date, order.sell_order_id, 'Y']);
             }
             for (let customer_id in customerContribMap) {
                 const profit = (net_profit * customerContribMap[customer_id]).toFixed(10);
-                customerProfitsData.push([customer_id, profit, order.sell_date, order.sell_order_id]);
+                customerProfitsData.push([customer_id, profit, order.sell_date, order.sell_order_id, 'N']);
             }
         }
         await pool_1.pool.query(queries_1.queries.BULK_INSERT_CUSTOMER_PROFITS, [customerProfitsData]);
