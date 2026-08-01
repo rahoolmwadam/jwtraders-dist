@@ -77,7 +77,7 @@ let SellOrdersService = class SellOrdersService {
             is_average = is_average ? is_average : 'N';
             customer_id = customer_id ? customer_id : null;
             let queryParams = [
-                instrument_id, customer_id, market_type, buy_date, buy_qty, buy_price, sell_price, sell_qty, sell_date, is_average, loan_percent
+                instrument_id, customer_id, market_type, buy_date, buy_qty, buy_price, sell_price, sell_qty, sell_date, is_average, (loan_percent || 0)
             ];
             queryParams = [...queryParams, brokerage, charges, tax_percent, usd_value];
             return [
