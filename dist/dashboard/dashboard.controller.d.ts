@@ -9,4 +9,5 @@ export declare class DashboardController {
     findCustomerProfitsDaily(): Promise<import("mysql2").QueryResult>;
     findCustomerProfitsQuarterly(): Promise<import("mysql2").QueryResult>;
     findCustomerProfitsYearly(): Promise<import("mysql2").QueryResult>;
+    getCustomerProfits(interval: string): Promise<import("mysql2").QueryResult>;
 }

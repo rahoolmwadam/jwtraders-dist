@@ -39,6 +39,50 @@ let DashboardService = class DashboardService {
         const [results] = await pool_1.pool.query(queries_1.queries.GET_CUSTOMER_PROFITS_YEARLY);
         return results;
     }
+    getGroupAndPeriodSql(interval) {
+        switch (interval) {
+            case 'daily':
+                return {
+                    selectExpr: `DATE_FORMAT(sell_date, ?)`,
+                    params: ['%Y-%m-%d'],
+                };
+            case 'quarterly':
+                return {
+                    selectExpr: `DATE_FORMAT(MAKEDATE(YEAR(sell_date), 1) + INTERVAL (QUARTER(sell_date) - 1) QUARTER, '%Y-%m-01')`,
+                    params: [],
+                };
+            case 'yearly':
+                return {
+                    selectExpr: `DATE_FORMAT(sell_date, ?)`,
+                    params: ['%Y-01-01'],
+                };
+            case 'monthly':
+            default:
+                return {
+                    selectExpr: `DATE_FORMAT(sell_date, ?)`,
+                    params: ['%Y-%m-01'],
+                };
+        }
+    }
+    async getCustomerProfitsInGroups(interval = 'monthly') {
+        const { selectExpr, params } = this.getGroupAndPeriodSql(interval);
+        const sql = `
+      SELECT 
+        ${selectExpr} AS time_period, 
+        cp.customer_id, 
+        c.name AS customer_name,
+        SUM(profit) AS customer_profit
+      FROM customer_profits cp 
+      left join customers c on cp.customer_id = c.customer_id
+      GROUP BY 
+        cp.customer_id, 
+        ${selectExpr}
+      ORDER BY time_period DESC
+    `;
+        const queryParams = [...params, ...params];
+        const [rows] = await pool_1.pool.query(sql, queryParams);
+        return rows;
+    }
 };
 exports.DashboardService = DashboardService;
 exports.DashboardService = DashboardService = __decorate([

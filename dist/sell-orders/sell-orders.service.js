@@ -99,13 +99,13 @@ let SellOrdersService = class SellOrdersService {
     }
     async handleCustomerProfits(sellOrderIds) {
         const [orders] = await pool_1.pool.query(queries_1.queries.GET_BULK_SELL_ORDER_BY_ID, [sellOrderIds]);
-        const [customerContributions] = await pool_1.pool.query(queries_1.queries.GET_CUSTOMER_CONTRIB, []);
-        const customerContribMap = {};
-        for (let contrib of customerContributions) {
-            customerContribMap[contrib.customer_id] = contrib.contribution;
-        }
         const customerProfitsData = [];
         for (let order of orders) {
+            const [customerContributions] = await pool_1.pool.query(queries_1.queries.GET_CUSTOMER_CONTRIB, [order.sell_date]);
+            const customerContribMap = {};
+            for (let contrib of customerContributions) {
+                customerContribMap[contrib.customer_id] = contrib.contribution;
+            }
             let net_profit = order.net_profit;
             if (['us', 'crypto'].includes(order.market_type)) {
                 net_profit = net_profit * order.usd_value;

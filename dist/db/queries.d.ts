@@ -53,4 +53,5 @@ export declare const queries: {
     GET_CUSTOMER_PROFITS_DAILY: string;
     GET_CUSTOMER_PROFITS_QUARTERLY: string;
     GET_CUSTOMER_PROFITS_YEARLY: string;
+    GET_CUSTOMER_PROFITS_BY_CUSTOMER: string;
 };

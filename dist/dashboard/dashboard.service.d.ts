@@ -6,4 +6,6 @@ export declare class DashboardService {
     findCustomerProfitsDaily(): Promise<import("mysql2").QueryResult>;
     findCustomerProfitsQuarterly(): Promise<import("mysql2").QueryResult>;
     findCustomerProfitsYearly(): Promise<import("mysql2").QueryResult>;
+    private getGroupAndPeriodSql;
+    getCustomerProfitsInGroups(interval?: string): Promise<import("mysql2").QueryResult>;
 }

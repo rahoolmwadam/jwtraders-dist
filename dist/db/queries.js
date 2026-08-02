@@ -32,7 +32,18 @@ exports.queries = {
   COALESCE(lbv.balance_sum, 0) as balance_sum  
   FROM loan_balance_vw lbv left join customers c on c.customer_id = lbv.customer_id order by updated_at desc;
 `,
-    GET_CUSTOMER_CONTRIB: `select * from customer_contrib_vw`,
+    GET_CUSTOMER_CONTRIB: `SELECT
+    c.name AS name,
+    i.customer_id AS customer_id,
+    SUM(i.amount) / SUM(SUM(i.amount)) OVER () AS contribution
+FROM jwtraders.investments i
+LEFT JOIN jwtraders.customers c 
+    ON c.customer_id = i.customer_id
+where i.date <= ?
+GROUP BY
+    i.customer_id,
+    c.name;
+`,
     BULK_INSERT_CUSTOMER_PROFITS: `
   INSERT INTO customer_profits (customer_id, profit, sell_date, sell_order_id, is_loan)
   VALUES ?
@@ -264,6 +275,9 @@ left join customers c on c.customer_id = cp.customer_id ;
     GET_CUSTOMER_PROFITS_MONTHLY: `select * from monthly_profits_vw;`,
     GET_CUSTOMER_PROFITS_DAILY: `select * from daily_profits_vw;`,
     GET_CUSTOMER_PROFITS_QUARTERLY: `select * from quarterly_profits_vw;`,
-    GET_CUSTOMER_PROFITS_YEARLY: `select * from yearly_profits_vw;`
+    GET_CUSTOMER_PROFITS_YEARLY: `select * from yearly_profits_vw;`,
+    GET_CUSTOMER_PROFITS_BY_CUSTOMER: `select DATE_FORMAT(sell_date, ?), customer_id, sum(profit) 
+from customer_profits cp 
+group by cp.customer_id, DATE_FORMAT(sell_date, ?)`
 };
 //# sourceMappingURL=queries.js.map
