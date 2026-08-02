@@ -93,6 +93,7 @@ let BackupService = BackupService_1 = class BackupService {
                 this.logger.log(`Local temporary file removed: ${filePath}`);
             }
         }
+        return { message: 'Backup process completed. Check email for details.' };
     }
     async uploadToGoogleDrive(filePath, fileName) {
         const oauth2Client = new googleapis_1.google.auth.OAuth2(this.configService.get('GDRIVE_CLIENT_ID'), this.configService.get('GDRIVE_CLIENT_SECRET'));

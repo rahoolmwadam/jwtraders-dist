@@ -5,7 +5,9 @@ export declare class BackupService {
     private readonly mailerService;
     private readonly logger;
     constructor(configService: ConfigService, mailerService: MailerService);
-    handleDailyBackup(): Promise<void>;
+    handleDailyBackup(): Promise<{
+        message: string;
+    }>;
     private uploadToGoogleDrive;
     private sendNotification;
 }

@@ -5,12 +5,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DashboardService = void 0;
 const common_1 = require("@nestjs/common");
+const auth_service_1 = require("../auth/auth.service");
 const pool_1 = require("../db/pool");
 const queries_1 = require("../db/queries");
 let DashboardService = class DashboardService {
+    auth;
+    constructor(auth) {
+        this.auth = auth;
+    }
     async findAll() {
         const [results] = await pool_1.pool.query(queries_1.queries.GET_DASHBORAD_DATA);
         return results;
@@ -23,20 +31,20 @@ let DashboardService = class DashboardService {
         const [results] = await pool_1.pool.query(queries_1.queries.GET_CUSTOMER_PROFITS);
         return results;
     }
-    async findCustomerProfitsMonthly() {
-        const [results] = await pool_1.pool.query(queries_1.queries.GET_CUSTOMER_PROFITS_MONTHLY);
+    async findCustomerProfitsMonthly(type) {
+        const [results] = await pool_1.pool.query(type == 'loans' ? queries_1.queries.GET_CUSTOMER_PROFITS_MONTHLY_LOANS : queries_1.queries.GET_CUSTOMER_PROFITS_MONTHLY);
         return results;
     }
-    async findCustomerProfitsDaily() {
-        const [results] = await pool_1.pool.query(queries_1.queries.GET_CUSTOMER_PROFITS_DAILY);
+    async findCustomerProfitsDaily(type) {
+        const [results] = await pool_1.pool.query(type == 'loans' ? queries_1.queries.GET_CUSTOMER_PROFITS_DAILY_LOANS : queries_1.queries.GET_CUSTOMER_PROFITS_DAILY);
         return results;
     }
-    async findCustomerProfitsQuarterly() {
-        const [results] = await pool_1.pool.query(queries_1.queries.GET_CUSTOMER_PROFITS_QUARTERLY);
+    async findCustomerProfitsQuarterly(type) {
+        const [results] = await pool_1.pool.query(type == 'loans' ? queries_1.queries.GET_CUSTOMER_PROFITS_QUARTERLY_LOANS : queries_1.queries.GET_CUSTOMER_PROFITS_QUARTERLY);
         return results;
     }
-    async findCustomerProfitsYearly() {
-        const [results] = await pool_1.pool.query(queries_1.queries.GET_CUSTOMER_PROFITS_YEARLY);
+    async findCustomerProfitsYearly(type) {
+        const [results] = await pool_1.pool.query(type == 'loans' ? queries_1.queries.GET_CUSTOMER_PROFITS_YEARLY_LOANS : queries_1.queries.GET_CUSTOMER_PROFITS_YEARLY);
         return results;
     }
     getGroupAndPeriodSql(interval) {
@@ -64,8 +72,9 @@ let DashboardService = class DashboardService {
                 };
         }
     }
-    async getCustomerProfitsInGroups(interval = 'monthly') {
+    async getCustomerProfitsInGroups(interval = 'monthly', isLoan = 'N', user) {
         const { selectExpr, params } = this.getGroupAndPeriodSql(interval);
+        const { email, isAdmin } = this.auth.getUser(user);
         const sql = `
       SELECT 
         ${selectExpr} AS time_period, 
@@ -74,18 +83,20 @@ let DashboardService = class DashboardService {
         SUM(profit) AS customer_profit
       FROM customer_profits cp 
       left join customers c on cp.customer_id = c.customer_id
+      where cp.is_loan = ? and (c.email = ? or 1 = ?)
       GROUP BY 
         cp.customer_id, 
         ${selectExpr}
       ORDER BY time_period DESC
     `;
-        const queryParams = [...params, ...params];
+        const queryParams = [...params, isLoan, email, isAdmin, ...params];
         const [rows] = await pool_1.pool.query(sql, queryParams);
         return rows;
     }
 };
 exports.DashboardService = DashboardService;
 exports.DashboardService = DashboardService = __decorate([
-    (0, common_1.Injectable)()
+    (0, common_1.Injectable)(),
+    __metadata("design:paramtypes", [auth_service_1.AuthService])
 ], DashboardService);
 //# sourceMappingURL=dashboard.service.js.map

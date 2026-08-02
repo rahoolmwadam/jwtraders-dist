@@ -29,20 +29,21 @@ let DashboardController = class DashboardController {
     findCustomerProfits() {
         return this.dashboardService.findCustomerProfits();
     }
-    findCustomerProfitsMonthly() {
-        return this.dashboardService.findCustomerProfitsMonthly();
+    findCustomerProfitsMonthly(type) {
+        return this.dashboardService.findCustomerProfitsMonthly(type);
     }
-    findCustomerProfitsDaily() {
-        return this.dashboardService.findCustomerProfitsDaily();
+    findCustomerProfitsDaily(type) {
+        return this.dashboardService.findCustomerProfitsDaily(type);
     }
-    findCustomerProfitsQuarterly() {
-        return this.dashboardService.findCustomerProfitsQuarterly();
+    findCustomerProfitsQuarterly(type) {
+        return this.dashboardService.findCustomerProfitsQuarterly(type);
     }
-    findCustomerProfitsYearly() {
-        return this.dashboardService.findCustomerProfitsYearly();
+    findCustomerProfitsYearly(type) {
+        return this.dashboardService.findCustomerProfitsYearly(type);
     }
-    getCustomerProfits(interval) {
-        return this.dashboardService.getCustomerProfitsInGroups(interval);
+    getCustomerProfits(req, interval, type) {
+        const user = req['user'];
+        return this.dashboardService.getCustomerProfitsInGroups(interval, type == 'loans' ? 'Y' : 'N', user);
     }
 };
 exports.DashboardController = DashboardController;
@@ -65,34 +66,40 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], DashboardController.prototype, "findCustomerProfits", null);
 __decorate([
-    (0, common_1.Get)('customer-profits-monthly'),
+    (0, common_1.Get)('customer-profits-monthly/:type'),
+    __param(0, (0, common_1.Param)('type')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], DashboardController.prototype, "findCustomerProfitsMonthly", null);
 __decorate([
-    (0, common_1.Get)('customer-profits-daily'),
+    (0, common_1.Get)('customer-profits-daily/:type'),
+    __param(0, (0, common_1.Param)('type')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], DashboardController.prototype, "findCustomerProfitsDaily", null);
 __decorate([
-    (0, common_1.Get)('customer-profits-quarterly'),
+    (0, common_1.Get)('customer-profits-quarterly/:type'),
+    __param(0, (0, common_1.Param)('type')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], DashboardController.prototype, "findCustomerProfitsQuarterly", null);
 __decorate([
-    (0, common_1.Get)('customer-profits-yearly'),
+    (0, common_1.Get)('customer-profits-yearly/:type'),
+    __param(0, (0, common_1.Param)('type')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], DashboardController.prototype, "findCustomerProfitsYearly", null);
 __decorate([
-    (0, common_1.Get)('customer-profits/:interval'),
-    __param(0, (0, common_1.Param)('interval')),
+    (0, common_1.Get)('customer-profits/:interval/:type'),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Param)('interval')),
+    __param(2, (0, common_1.Param)('type')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Request, String, String]),
     __metadata("design:returntype", void 0)
 ], DashboardController.prototype, "getCustomerProfits", null);
 exports.DashboardController = DashboardController = __decorate([

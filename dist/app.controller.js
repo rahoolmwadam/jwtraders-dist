@@ -17,16 +17,16 @@ let AppController = class AppController {
     constructor(backupService) {
         this.backupService = backupService;
     }
-    backup() {
-        this.backupService.handleDailyBackup();
+    async backup() {
+        return await this.backupService.handleDailyBackup();
     }
 };
 exports.AppController = AppController;
 __decorate([
-    (0, common_1.Get)('backup'),
+    (0, common_1.Post)('backup'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], AppController.prototype, "backup", null);
 exports.AppController = AppController = __decorate([
     (0, common_1.Controller)('api/app'),

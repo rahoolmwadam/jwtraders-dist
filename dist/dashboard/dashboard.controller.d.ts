@@ -5,9 +5,9 @@ export declare class DashboardController {
     findAll(): Promise<import("mysql2").QueryResult>;
     findMain(): Promise<any>;
     findCustomerProfits(): Promise<import("mysql2").QueryResult>;
-    findCustomerProfitsMonthly(): Promise<import("mysql2").QueryResult>;
-    findCustomerProfitsDaily(): Promise<import("mysql2").QueryResult>;
-    findCustomerProfitsQuarterly(): Promise<import("mysql2").QueryResult>;
-    findCustomerProfitsYearly(): Promise<import("mysql2").QueryResult>;
-    getCustomerProfits(interval: string): Promise<import("mysql2").QueryResult>;
+    findCustomerProfitsMonthly(type: string): Promise<import("mysql2").QueryResult>;
+    findCustomerProfitsDaily(type: string): Promise<import("mysql2").QueryResult>;
+    findCustomerProfitsQuarterly(type: string): Promise<import("mysql2").QueryResult>;
+    findCustomerProfitsYearly(type: string): Promise<import("mysql2").QueryResult>;
+    getCustomerProfits(req: Request, interval: string, type: string): Promise<import("mysql2").QueryResult>;
 }

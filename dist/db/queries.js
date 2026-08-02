@@ -276,6 +276,10 @@ left join customers c on c.customer_id = cp.customer_id ;
     GET_CUSTOMER_PROFITS_DAILY: `select * from daily_profits_vw;`,
     GET_CUSTOMER_PROFITS_QUARTERLY: `select * from quarterly_profits_vw;`,
     GET_CUSTOMER_PROFITS_YEARLY: `select * from yearly_profits_vw;`,
+    GET_CUSTOMER_PROFITS_MONTHLY_LOANS: `select * from monthly_profits_loans_vw;`,
+    GET_CUSTOMER_PROFITS_DAILY_LOANS: `select * from daily_profits_loans_vw;`,
+    GET_CUSTOMER_PROFITS_QUARTERLY_LOANS: `select * from quarterly_profits_loans_vw;`,
+    GET_CUSTOMER_PROFITS_YEARLY_LOANS: `select * from yearly_profits_loans_vw;`,
     GET_CUSTOMER_PROFITS_BY_CUSTOMER: `select DATE_FORMAT(sell_date, ?), customer_id, sum(profit) 
 from customer_profits cp 
 group by cp.customer_id, DATE_FORMAT(sell_date, ?)`
