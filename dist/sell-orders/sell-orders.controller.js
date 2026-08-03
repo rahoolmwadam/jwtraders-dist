@@ -28,7 +28,7 @@ let SellOrdersController = class SellOrdersController {
         this.appService = appService;
     }
     async uploadFile(marketType, file) {
-        const data = await this.appService.parseCsv(file.buffer);
+        const data = await this.appService.parseCsv(file.buffer, marketType);
         const affetedRows = await this.sellOrdersService.batchCreate(data);
         return {
             marketType,

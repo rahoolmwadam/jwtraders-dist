@@ -1,4 +1,5 @@
 export declare class AppService {
     getHello(): string;
-    parseCsv(fileBuffer: Buffer): Promise<any[]>;
+    private readonly allowedHeaderMapping;
+    parseCsv(fileBuffer: Buffer, marketType: string): Promise<any[]>;
 }

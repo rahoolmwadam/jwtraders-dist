@@ -17,13 +17,36 @@ let AppService = class AppService {
     getHello() {
         return 'Hello World!';
     }
-    async parseCsv(fileBuffer) {
+    allowedHeaderMapping = {
+        'Date': 'buy_date',
+        'Buy price': 'buy_price',
+        'Qty': 'buy_qty',
+        'Sell price': 'sell_price',
+        'Sell date': 'sell_date',
+        'Loan percent': 'loan_percent',
+        'Stock': 'instrument',
+        'Customer ID': 'customer_id'
+    };
+    async parseCsv(fileBuffer, marketType) {
         return new Promise((resolve, reject) => {
             const results = [];
             const stream = stream_1.Readable.from(fileBuffer);
             stream
-                .pipe((0, csv_parser_1.default)())
-                .on('data', (data) => results.push(data))
+                .pipe((0, csv_parser_1.default)({
+                mapHeaders: ({ header }) => {
+                    const trimmedHeader = header.trim();
+                    return this.allowedHeaderMapping[trimmedHeader] || null;
+                },
+            }))
+                .on('data', (data) => {
+                const enrichedData = {
+                    ...data,
+                    market_type: marketType
+                };
+                if (enrichedData.instrument) {
+                    results.push(enrichedData);
+                }
+            })
                 .on('end', () => resolve(results))
                 .on('error', (error) => reject(error));
         });
