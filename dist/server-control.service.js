@@ -15,7 +15,7 @@ let ServerControlService = ServerControlService_1 = class ServerControlService {
     shutdownServer() {
         this.logger.warn('Initiating server shutdown sequence...');
         setImmediate(() => {
-            (0, child_process_1.exec)('sudo /sbin/shutdown -h +1 "System shutdown triggered via NestJS API"', (error, stdout, stderr) => {
+            (0, child_process_1.exec)('sudo /sbin/shutdown -h now "System shutdown triggered via NestJS API"', (error, stdout, stderr) => {
                 if (error) {
                     this.logger.error(`Shutdown execution failed: ${error.message}`);
                     return;
