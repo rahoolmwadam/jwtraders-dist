@@ -37,6 +37,8 @@ export declare const queries: {
     DELETE_SELL_ORDER: string;
     BATCH_CREATE_SELL: string;
     GET_BULK_SELL_ORDER_BY_ID: string;
+    GET_SELL_ORDER_BY_MARKET: string;
+    BULK_DELETE_SELL_ORDER: string;
     GET_SYS_PARAMS: string;
     GET_SYS_PARAMS_BY_MARKET: string;
     GET_SYS_PARAMS_BY_ID: string;
@@ -58,4 +60,5 @@ export declare const queries: {
     GET_CUSTOMER_PROFITS_QUARTERLY_LOANS: string;
     GET_CUSTOMER_PROFITS_YEARLY_LOANS: string;
     GET_CUSTOMER_PROFITS_BY_CUSTOMER: string;
+    BULK_DELETE_CUSTOMER_PROFITS: string;
 };

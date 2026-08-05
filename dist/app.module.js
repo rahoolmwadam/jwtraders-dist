@@ -25,7 +25,6 @@ const config_1 = require("@nestjs/config");
 const schedule_1 = require("@nestjs/schedule");
 const mailer_1 = require("@nestjs-modules/mailer");
 const fs_1 = require("fs");
-const backup_service_1 = require("./backup.service");
 const app_controller_1 = require("./app.controller");
 const publicPath = (0, path_1.join)(process.cwd(), 'public/browser');
 console.log('📁 Checking Static Path:', publicPath);
@@ -75,7 +74,6 @@ exports.AppModule = AppModule = __decorate([
                 provide: core_1.APP_GUARD,
                 useClass: (0, passport_1.AuthGuard)('jwt'),
             },
-            backup_service_1.BackupService,
         ],
         controllers: [app_controller_1.AppController],
     })

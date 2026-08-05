@@ -1,5 +1,7 @@
+import { CsvService } from './csv.service';
 export declare class AppService {
+    private readonly csvService;
+    constructor(csvService: CsvService);
     getHello(): string;
-    private readonly allowedHeaderMapping;
-    parseCsv(fileBuffer: Buffer, marketType: string): Promise<any[]>;
+    parseCsvSellOrders(fileBuffer: Buffer, marketType: string): Promise<any[]>;
 }

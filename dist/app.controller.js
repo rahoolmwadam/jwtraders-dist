@@ -20,6 +20,9 @@ let AppController = class AppController {
     async backup() {
         return await this.backupService.handleDailyBackup();
     }
+    async poweroff() {
+        return await this.backupService.powerOff();
+    }
 };
 exports.AppController = AppController;
 __decorate([
@@ -28,6 +31,12 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], AppController.prototype, "backup", null);
+__decorate([
+    (0, common_1.Post)('poweroff'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], AppController.prototype, "poweroff", null);
 exports.AppController = AppController = __decorate([
     (0, common_1.Controller)('api/app'),
     __metadata("design:paramtypes", [backup_service_1.BackupService])

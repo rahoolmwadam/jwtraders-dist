@@ -30,7 +30,8 @@ export declare class SellOrdersService {
     remove(id: number): Promise<{
         deleted: boolean;
     }>;
-    batchCreate(orders: CreateSellOrderDto[]): Promise<number[]>;
+    batchCreate(orders: CreateSellOrderDto[], marketType: string): Promise<number[]>;
     averageCreate(orders: CreateSellOrderDto[]): Promise<number[]>;
     handleCustomerProfits(sellOrderIds: number[]): Promise<void>;
+    clearExistingOrders(marketType: string): Promise<void>;
 }

@@ -245,6 +245,8 @@ WHERE sell_order_id IS ?;
       VALUES ?
   `,
     GET_BULK_SELL_ORDER_BY_ID: 'SELECT * FROM sell_orders WHERE sell_order_id IN (?)',
+    GET_SELL_ORDER_BY_MARKET: 'SELECT sell_order_id FROM sell_orders WHERE market_type = ?',
+    BULK_DELETE_SELL_ORDER: 'DELETE FROM sell_orders WHERE sell_order_id IN (?)',
     GET_SYS_PARAMS: `SELECT * from system_params`,
     GET_SYS_PARAMS_BY_MARKET: `SELECT * FROM system_params WHERE market_type = ?`,
     GET_SYS_PARAMS_BY_ID: `SELECT * FROM system_params WHERE system_params_id = ?`,
@@ -282,6 +284,7 @@ left join customers c on c.customer_id = cp.customer_id ;
     GET_CUSTOMER_PROFITS_YEARLY_LOANS: `select * from yearly_profits_loans_vw;`,
     GET_CUSTOMER_PROFITS_BY_CUSTOMER: `select DATE_FORMAT(sell_date, ?), customer_id, sum(profit) 
 from customer_profits cp 
-group by cp.customer_id, DATE_FORMAT(sell_date, ?)`
+group by cp.customer_id, DATE_FORMAT(sell_date, ?)`,
+    BULK_DELETE_CUSTOMER_PROFITS: 'DELETE FROM customer_profits WHERE sell_order_id IN (?)',
 };
 //# sourceMappingURL=queries.js.map

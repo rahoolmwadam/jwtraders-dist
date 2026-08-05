@@ -53,14 +53,17 @@ const util_1 = require("util");
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
 const googleapis_1 = require("googleapis");
+const server_control_service_1 = require("./server-control.service");
 const execPromise = (0, util_1.promisify)(child_process_1.exec);
 let BackupService = BackupService_1 = class BackupService {
     configService;
     mailerService;
+    serverControlService;
     logger = new common_1.Logger(BackupService_1.name);
-    constructor(configService, mailerService) {
+    constructor(configService, mailerService, serverControlService) {
         this.configService = configService;
         this.mailerService = mailerService;
+        this.serverControlService = serverControlService;
     }
     async handleDailyBackup() {
         this.logger.log('Starting automated MySQL database backup...');
@@ -121,8 +124,8 @@ let BackupService = BackupService_1 = class BackupService {
     async sendNotification(success, details) {
         const recipient = this.configService.get('NOTIFICATION_EMAIL');
         const subject = success
-            ? '🟢 MySQL Backup Success Report'
-            : '🔴 MySQL Backup Failure Alert';
+            ? '🟢 MySQL Backup Success Report' + ` - ${new Date().toLocaleDateString()}`
+            : '🔴 MySQL Backup Failure Alert' + ` - ${new Date().toLocaleDateString()}`;
         try {
             await this.mailerService.sendMail({
                 to: recipient,
@@ -140,6 +143,9 @@ let BackupService = BackupService_1 = class BackupService {
             this.logger.error('Failed to send notification email', emailError.stack);
         }
     }
+    powerOff() {
+        return this.serverControlService.shutdownServer();
+    }
 };
 exports.BackupService = BackupService;
 __decorate([
@@ -151,6 +157,7 @@ __decorate([
 exports.BackupService = BackupService = BackupService_1 = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [config_1.ConfigService,
-        mailer_1.MailerService])
+        mailer_1.MailerService,
+        server_control_service_1.ServerControlService])
 ], BackupService);
 //# sourceMappingURL=backup.service.js.map

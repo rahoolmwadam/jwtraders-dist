@@ -9,14 +9,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CommonModule = void 0;
 const common_1 = require("@nestjs/common");
 const app_service_1 = require("./app.service");
+const csv_service_1 = require("./csv.service");
+const backup_service_1 = require("./backup.service");
+const server_control_service_1 = require("./server-control.service");
 let CommonModule = class CommonModule {
 };
 exports.CommonModule = CommonModule;
 exports.CommonModule = CommonModule = __decorate([
     (0, common_1.Global)(),
     (0, common_1.Module)({
-        providers: [app_service_1.AppService],
-        exports: [app_service_1.AppService],
+        providers: [app_service_1.AppService, csv_service_1.CsvService, backup_service_1.BackupService, server_control_service_1.ServerControlService],
+        exports: [app_service_1.AppService, csv_service_1.CsvService, backup_service_1.BackupService, server_control_service_1.ServerControlService],
     })
 ], CommonModule);
 //# sourceMappingURL=common.module.js.map

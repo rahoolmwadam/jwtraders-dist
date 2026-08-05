@@ -62,7 +62,8 @@ let SellOrdersService = class SellOrdersService {
         await pool_1.pool.query(queries_1.queries.DELETE_OPEN_ORDER, [id]);
         return { deleted: true };
     }
-    async batchCreate(orders) {
+    async batchCreate(orders, marketType) {
+        await this.clearExistingOrders(marketType);
         const systemParams = await this.systemParametersService.findByMarket(orders[0].market_type);
         const { brokerage, charges, tax_percent, usd_value } = systemParams;
         const instruments = await this.instrumentService.findAll();
@@ -92,7 +93,8 @@ let SellOrdersService = class SellOrdersService {
         return allInsertIds;
     }
     async averageCreate(orders) {
-        const allInsertIds = await this.batchCreate(orders);
+        const marketType = orders[0].market_type;
+        const allInsertIds = await this.batchCreate(orders, marketType);
         await pool_1.pool.query(queries_1.queries.BULK_DELETE_OPEN_ORDER, [orders.map(o => o.order_id).filter(id => id)]);
         await this.handleCustomerProfits(allInsertIds);
         return allInsertIds;
@@ -120,6 +122,14 @@ let SellOrdersService = class SellOrdersService {
             }
         }
         await pool_1.pool.query(queries_1.queries.BULK_INSERT_CUSTOMER_PROFITS, [customerProfitsData]);
+    }
+    async clearExistingOrders(marketType) {
+        const [sellOrderIds] = await pool_1.pool.query(queries_1.queries.GET_SELL_ORDER_BY_MARKET, [marketType]);
+        const ids = sellOrderIds.map((row) => row.sell_order_id);
+        if (ids.length > 0) {
+            await pool_1.pool.query(queries_1.queries.BULK_DELETE_CUSTOMER_PROFITS, [ids]);
+            await pool_1.pool.query(queries_1.queries.BULK_DELETE_SELL_ORDER, [ids]);
+        }
     }
 };
 exports.SellOrdersService = SellOrdersService;

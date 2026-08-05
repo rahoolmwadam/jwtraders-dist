@@ -5,55 +5,28 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppService = void 0;
 const common_1 = require("@nestjs/common");
-const stream_1 = require("stream");
-const csv_parser_1 = __importDefault(require("csv-parser"));
+const csv_service_1 = require("./csv.service");
 let AppService = class AppService {
+    csvService;
+    constructor(csvService) {
+        this.csvService = csvService;
+    }
     getHello() {
         return 'Hello World!';
     }
-    allowedHeaderMapping = {
-        'Date': 'buy_date',
-        'Buy price': 'buy_price',
-        'Qty': 'buy_qty',
-        'Sell price': 'sell_price',
-        'Sell date': 'sell_date',
-        'Loan percent': 'loan_percent',
-        'Stock': 'instrument',
-        'Customer ID': 'customer_id'
-    };
-    async parseCsv(fileBuffer, marketType) {
-        return new Promise((resolve, reject) => {
-            const results = [];
-            const stream = stream_1.Readable.from(fileBuffer);
-            stream
-                .pipe((0, csv_parser_1.default)({
-                mapHeaders: ({ header }) => {
-                    const trimmedHeader = header.trim();
-                    return this.allowedHeaderMapping[trimmedHeader] || null;
-                },
-            }))
-                .on('data', (data) => {
-                const enrichedData = {
-                    ...data,
-                    market_type: marketType
-                };
-                if (enrichedData.instrument) {
-                    results.push(enrichedData);
-                }
-            })
-                .on('end', () => resolve(results))
-                .on('error', (error) => reject(error));
-        });
+    parseCsvSellOrders(fileBuffer, marketType) {
+        return this.csvService.parseCsv(fileBuffer, marketType);
     }
 };
 exports.AppService = AppService;
 exports.AppService = AppService = __decorate([
-    (0, common_1.Injectable)()
+    (0, common_1.Injectable)(),
+    __metadata("design:paramtypes", [csv_service_1.CsvService])
 ], AppService);
 //# sourceMappingURL=app.service.js.map

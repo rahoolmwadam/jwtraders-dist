@@ -5,4 +5,7 @@ export declare class AppController {
     backup(): Promise<{
         message: string;
     }>;
+    poweroff(): Promise<{
+        message: string;
+    }>;
 }
