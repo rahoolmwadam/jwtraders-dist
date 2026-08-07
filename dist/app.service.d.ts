@@ -4,4 +4,5 @@ export declare class AppService {
     constructor(csvService: CsvService);
     getHello(): string;
     parseCsvSellOrders(fileBuffer: Buffer, marketType: string): Promise<any[]>;
+    parseCsvLiveMarketData(fileBuffer: Buffer): Promise<any[]>;
 }

@@ -61,4 +61,6 @@ export declare const queries: {
     GET_CUSTOMER_PROFITS_YEARLY_LOANS: string;
     GET_CUSTOMER_PROFITS_BY_CUSTOMER: string;
     BULK_DELETE_CUSTOMER_PROFITS: string;
+    GET_LIVE_MARKET_DATA: string;
+    BULK_MARKET_DATA: string;
 };

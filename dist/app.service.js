@@ -23,6 +23,9 @@ let AppService = class AppService {
     parseCsvSellOrders(fileBuffer, marketType) {
         return this.csvService.parseCsv(fileBuffer, marketType);
     }
+    parseCsvLiveMarketData(fileBuffer) {
+        return this.csvService.parseLiveMarketCsv(fileBuffer, 'live-market-data');
+    }
 };
 exports.AppService = AppService;
 exports.AppService = AppService = __decorate([

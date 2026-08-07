@@ -26,6 +26,7 @@ const schedule_1 = require("@nestjs/schedule");
 const mailer_1 = require("@nestjs-modules/mailer");
 const fs_1 = require("fs");
 const app_controller_1 = require("./app.controller");
+const live_market_data_module_1 = require("./live-market-data/live-market-data.module");
 const publicPath = (0, path_1.join)(process.cwd(), 'public/browser');
 console.log('📁 Checking Static Path:', publicPath);
 console.log('📄 index.html exists?:', (0, fs_1.existsSync)((0, path_1.join)(publicPath, 'index.html')));
@@ -44,6 +45,7 @@ exports.AppModule = AppModule = __decorate([
             sell_orders_module_1.SellOrdersModule,
             system_parameters_module_1.SystemParametersModule,
             dashboard_module_1.DashboardModule,
+            live_market_data_module_1.LiveMarketDataModule,
             serve_static_1.ServeStaticModule.forRoot({
                 rootPath: publicPath,
                 exclude: ['/api/*path']

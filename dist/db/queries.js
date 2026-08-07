@@ -286,5 +286,8 @@ left join customers c on c.customer_id = cp.customer_id ;
 from customer_profits cp 
 group by cp.customer_id, DATE_FORMAT(sell_date, ?)`,
     BULK_DELETE_CUSTOMER_PROFITS: 'DELETE FROM customer_profits WHERE sell_order_id IN (?)',
+    GET_LIVE_MARKET_DATA: `select lmd.*, i.instrument_name  from live_market_data lmd left join instruments i on i.instrument_id = lmd.instrument_id where lmd.date = ?`,
+    BULK_MARKET_DATA: `INSERT INTO live_market_data
+(date, instrument_id, open, high, low, close, ltp) values ?`
 };
 //# sourceMappingURL=queries.js.map
