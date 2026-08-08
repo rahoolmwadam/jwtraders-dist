@@ -14,10 +14,13 @@ const common_1 = require("@nestjs/common");
 const pool_1 = require("../db/pool");
 const queries_1 = require("../db/queries");
 const instruments_service_1 = require("../instruments/instruments.service");
+const price_service_1 = require("./price.service");
 let LiveMarketDataService = class LiveMarketDataService {
     instrumentService;
-    constructor(instrumentService) {
+    priceService;
+    constructor(instrumentService, priceService) {
         this.instrumentService = instrumentService;
+        this.priceService = priceService;
     }
     create(createLiveMarketDatumDto) {
         return 'This action adds a new liveMarketDatum';
@@ -39,18 +42,32 @@ let LiveMarketDataService = class LiveMarketDataService {
             return `${year}-${month}-${paddedDay}`;
         };
         const instrumentNameResolver = ({ instrument }) => {
-            return instrumentMap.get(instrument.toLowerCase()) || instrumentMap.get('nse:' + instrument.toLowerCase());
+            return instrumentMap.get(instrument?.toLowerCase()) || instrumentMap.get('nse:' + instrument?.toLowerCase());
         };
+        let date = null;
         const feedInserts = data.filter(instrumentNameResolver).map((d) => {
+            date = d?.date.trim();
             return [
-                convertToMysqlDate(d.date.trim()),
+                date,
                 instrumentNameResolver(d),
-                d.open.trim(),
-                d.high.trim(),
-                d.low.trim(),
-                d.close.trim(),
-                d.ltp.trim()
+                d.open?.trim(),
+                d.high?.trim(),
+                d.low?.trim(),
+                d.close?.trim(),
+                d.ltp?.trim()
             ];
+        });
+        const targetPrices = await this.priceService.getTargetPrices();
+        targetPrices.forEach((tp) => {
+            feedInserts.push([
+                date,
+                instrumentNameResolver({ instrument: tp.symbol }),
+                0,
+                0,
+                0,
+                tp.price,
+                0
+            ]);
         });
         await pool_1.pool.query(queries_1.queries.BULK_MARKET_DATA, [feedInserts]);
         return feedInserts;
@@ -68,6 +85,7 @@ let LiveMarketDataService = class LiveMarketDataService {
 exports.LiveMarketDataService = LiveMarketDataService;
 exports.LiveMarketDataService = LiveMarketDataService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [instruments_service_1.InstrumentsService])
+    __metadata("design:paramtypes", [instruments_service_1.InstrumentsService,
+        price_service_1.PriceService])
 ], LiveMarketDataService);
 //# sourceMappingURL=live-market-data.service.js.map

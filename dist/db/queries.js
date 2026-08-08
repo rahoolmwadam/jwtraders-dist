@@ -288,6 +288,18 @@ group by cp.customer_id, DATE_FORMAT(sell_date, ?)`,
     BULK_DELETE_CUSTOMER_PROFITS: 'DELETE FROM customer_profits WHERE sell_order_id IN (?)',
     GET_LIVE_MARKET_DATA: `select lmd.*, i.instrument_name  from live_market_data lmd left join instruments i on i.instrument_id = lmd.instrument_id where lmd.date = ?`,
     BULK_MARKET_DATA: `INSERT INTO live_market_data
-(date, instrument_id, open, high, low, close, ltp) values ?`
+(date, instrument_id, open, high, low, close, ltp) values ?`,
+    GET_STOCK_LIST: `
+select *, 
+case when slv.market_type in ('us', 'crypto') then order_value * 85 else order_value end as order_value_inr 
+from stock_list_vw slv  
+left join system_params sp on sp.market_type = slv.market_type 
+where 
+slv.market_type = ? and 
+slv.instrument_id 
+order by open_order_count  desc
+`,
+    GET_STOCK_LIST_BY_ID: `SELECT * FROM stock_list WHERE stock_list_id = ?`,
+    UPDATE_STOCK_LIST: `update stock_list set investment = ?, parts = ? where stock_list_id = ?`
 };
 //# sourceMappingURL=queries.js.map
