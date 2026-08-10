@@ -300,6 +300,9 @@ slv.instrument_id
 order by open_order_count  desc
 `,
     GET_STOCK_LIST_BY_ID: `SELECT * FROM stock_list WHERE stock_list_id = ?`,
-    UPDATE_STOCK_LIST: `update stock_list set investment = ?, parts = ? where stock_list_id = ?`
+    UPDATE_STOCK_LIST: `update stock_list set investment = ?, parts = ? where stock_list_id = ?`,
+    GET_FIB_INFO: `select * from fib_vw f
+left join open_orders oo on oo.order_id = f.order_id
+where f.instrument_id = ?;`
 };
 //# sourceMappingURL=queries.js.map

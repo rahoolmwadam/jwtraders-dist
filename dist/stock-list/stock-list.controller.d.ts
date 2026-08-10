@@ -13,4 +13,5 @@ export declare class StockListController {
         parts?: number | undefined;
     }>;
     remove(id: string): string;
+    findFib(id: string): Promise<import("mysql2").QueryResult>;
 }

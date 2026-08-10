@@ -66,4 +66,5 @@ export declare const queries: {
     GET_STOCK_LIST: string;
     GET_STOCK_LIST_BY_ID: string;
     UPDATE_STOCK_LIST: string;
+    GET_FIB_INFO: string;
 };

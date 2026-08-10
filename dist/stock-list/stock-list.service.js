@@ -32,6 +32,10 @@ let StockListService = class StockListService {
     remove(id) {
         return `This action removes a #${id} stockList`;
     }
+    async findFib(id) {
+        const [rows] = await pool_1.pool.query(queries_1.queries.GET_FIB_INFO, [id]);
+        return rows;
+    }
 };
 exports.StockListService = StockListService;
 exports.StockListService = StockListService = __decorate([

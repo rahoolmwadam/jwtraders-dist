@@ -37,6 +37,9 @@ let StockListController = class StockListController {
     remove(id) {
         return this.stockListService.remove(+id);
     }
+    findFib(id) {
+        return this.stockListService.findFib(id);
+    }
 };
 exports.StockListController = StockListController;
 __decorate([
@@ -75,6 +78,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], StockListController.prototype, "remove", null);
+__decorate([
+    (0, common_1.Get)('fib/:id'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], StockListController.prototype, "findFib", null);
 exports.StockListController = StockListController = __decorate([
     (0, common_1.Controller)('api/stock-list'),
     __metadata("design:paramtypes", [stock_list_service_1.StockListService])

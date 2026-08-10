@@ -10,4 +10,5 @@ export declare class StockListService {
         parts?: number | undefined;
     }>;
     remove(id: number): string;
+    findFib(id: any): Promise<import("mysql2").QueryResult>;
 }
