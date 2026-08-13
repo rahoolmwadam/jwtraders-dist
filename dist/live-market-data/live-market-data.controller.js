@@ -14,7 +14,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LiveMarketDataController = void 0;
 const common_1 = require("@nestjs/common");
-const live_market_data_service_1 = require("./live-market-data.service");
+const live_market_data_service_1 = require("../live-market-data.service");
 const create_live_market_datum_dto_1 = require("./dto/create-live-market-datum.dto");
 const update_live_market_datum_dto_1 = require("./dto/update-live-market-datum.dto");
 const platform_express_1 = require("@nestjs/platform-express");

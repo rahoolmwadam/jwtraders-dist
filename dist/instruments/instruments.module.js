@@ -9,15 +9,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.InstrumentsModule = void 0;
 const common_1 = require("@nestjs/common");
 const instruments_controller_1 = require("./instruments.controller");
-const instruments_service_1 = require("./instruments.service");
 let InstrumentsModule = class InstrumentsModule {
 };
 exports.InstrumentsModule = InstrumentsModule;
 exports.InstrumentsModule = InstrumentsModule = __decorate([
     (0, common_1.Module)({
-        controllers: [instruments_controller_1.InstrumentsController],
-        providers: [instruments_service_1.InstrumentsService],
-        exports: [instruments_service_1.InstrumentsService]
+        controllers: [instruments_controller_1.InstrumentsController]
     })
 ], InstrumentsModule);
 //# sourceMappingURL=instruments.module.js.map

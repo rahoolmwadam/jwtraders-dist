@@ -21,13 +21,14 @@ const loans_module_1 = require("./loans/loans.module");
 const open_orders_module_1 = require("./open_orders/open_orders.module");
 const sell_orders_module_1 = require("./sell-orders/sell-orders.module");
 const system_parameters_module_1 = require("./system-parameters/system-parameters.module");
+const mailer_1 = require("@nestjs-modules/mailer");
 const config_1 = require("@nestjs/config");
 const schedule_1 = require("@nestjs/schedule");
-const mailer_1 = require("@nestjs-modules/mailer");
 const fs_1 = require("fs");
 const app_controller_1 = require("./app.controller");
 const live_market_data_module_1 = require("./live-market-data/live-market-data.module");
 const stock_list_module_1 = require("./stock-list/stock-list.module");
+const common_module_1 = require("./common.module");
 const publicPath = (0, path_1.join)(process.cwd(), 'public/browser');
 console.log('📁 Checking Static Path:', publicPath);
 console.log('📄 index.html exists?:', (0, fs_1.existsSync)((0, path_1.join)(publicPath, 'index.html')));
@@ -72,6 +73,7 @@ exports.AppModule = AppModule = __decorate([
                 }),
             }),
             stock_list_module_1.StockListModule,
+            common_module_1.CommonModule
         ],
         providers: [
             {

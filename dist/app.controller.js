@@ -8,20 +8,29 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppController = void 0;
 const common_1 = require("@nestjs/common");
 const backup_service_1 = require("./backup.service");
+const app_service_1 = require("./app.service");
 let AppController = class AppController {
     backupService;
-    constructor(backupService) {
+    appService;
+    constructor(backupService, appService) {
         this.backupService = backupService;
+        this.appService = appService;
     }
     async backup() {
         return await this.backupService.handleDailyBackup();
     }
     async poweroff() {
         return await this.backupService.powerOff();
+    }
+    async importLiveFeed(spreadsheetId) {
+        return await this.appService.importLiveFeed(spreadsheetId);
     }
 };
 exports.AppController = AppController;
@@ -37,8 +46,16 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], AppController.prototype, "poweroff", null);
+__decorate([
+    (0, common_1.Get)('import-live-feed'),
+    __param(0, (0, common_1.Query)('spreadsheetId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], AppController.prototype, "importLiveFeed", null);
 exports.AppController = AppController = __decorate([
     (0, common_1.Controller)('api/app'),
-    __metadata("design:paramtypes", [backup_service_1.BackupService])
+    __metadata("design:paramtypes", [backup_service_1.BackupService,
+        app_service_1.AppService])
 ], AppController);
 //# sourceMappingURL=app.controller.js.map

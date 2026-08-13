@@ -63,6 +63,7 @@ export declare const queries: {
     BULK_DELETE_CUSTOMER_PROFITS: string;
     GET_LIVE_MARKET_DATA: string;
     BULK_MARKET_DATA: string;
+    BULK_MARKET_DATA_DELETE: string;
     GET_STOCK_LIST: string;
     GET_STOCK_LIST_BY_ID: string;
     UPDATE_STOCK_LIST: string;

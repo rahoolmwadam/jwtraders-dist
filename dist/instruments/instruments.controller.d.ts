@@ -1,6 +1,6 @@
-import { InstrumentsService } from './instruments.service';
 import { CreateInstrumentDto } from './dto/create-instrument.dto';
 import { UpdateInstrumentDto } from './dto/update-instrument.dto';
+import { InstrumentsService } from "../instruments.service";
 export declare class InstrumentsController {
     private readonly instrumentsService;
     constructor(instrumentsService: InstrumentsService);

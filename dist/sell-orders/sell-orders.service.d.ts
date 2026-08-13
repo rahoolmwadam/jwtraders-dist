@@ -1,8 +1,8 @@
-import { InstrumentsService } from "../instruments/instruments.service";
 import { OpenOrdersService } from "../open_orders/open_orders.service";
 import { SystemParametersService } from "../system-parameters/system-parameters.service";
 import { CreateSellOrderDto } from './dto/create-sell-order.dto';
 import { UpdateSellOrderDto } from './dto/update-sell-order.dto';
+import { InstrumentsService } from "../instruments.service";
 export declare class SellOrdersService {
     protected openOrderService: OpenOrdersService;
     protected systemParametersService: SystemParametersService;

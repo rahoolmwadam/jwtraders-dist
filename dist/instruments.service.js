@@ -8,8 +8,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.InstrumentsService = void 0;
 const common_1 = require("@nestjs/common");
-const pool_1 = require("../db/pool");
-const queries_1 = require("../db/queries");
+const pool_1 = require("./db/pool");
+const queries_1 = require("./db/queries");
 let InstrumentsService = class InstrumentsService {
     async create(dto) {
         const { instrument_name, instrument_type, instrument_description } = dto;

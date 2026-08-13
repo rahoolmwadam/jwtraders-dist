@@ -11,10 +11,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LiveMarketDataService = void 0;
 const common_1 = require("@nestjs/common");
-const pool_1 = require("../db/pool");
-const queries_1 = require("../db/queries");
-const instruments_service_1 = require("../instruments/instruments.service");
+const pool_1 = require("./db/pool");
+const queries_1 = require("./db/queries");
 const price_service_1 = require("./price.service");
+const instruments_service_1 = require("./instruments.service");
 let LiveMarketDataService = class LiveMarketDataService {
     instrumentService;
     priceService;
@@ -31,16 +31,6 @@ let LiveMarketDataService = class LiveMarketDataService {
     async batchCreate(data) {
         const instruments = await this.instrumentService.findAll();
         const instrumentMap = new Map(instruments.map((instrument) => [instrument.instrument_name.toLowerCase(), instrument.instrument_id]));
-        const convertToMysqlDate = (dateStr) => {
-            const [day, monthStr, year] = dateStr.split('-');
-            const months = {
-                Jan: '01', Feb: '02', Mar: '03', Apr: '04', May: '05', Jun: '06',
-                Jul: '07', Aug: '08', Sep: '09', Oct: '10', Nov: '11', Dec: '12'
-            };
-            const month = months[monthStr];
-            const paddedDay = day.padStart(2, '0');
-            return `${year}-${month}-${paddedDay}`;
-        };
         const instrumentNameResolver = ({ instrument }) => {
             return instrumentMap.get(instrument?.toLowerCase()) || instrumentMap.get('nse:' + instrument?.toLowerCase());
         };
@@ -69,6 +59,7 @@ let LiveMarketDataService = class LiveMarketDataService {
                 0
             ]);
         });
+        await pool_1.pool.query(queries_1.queries.BULK_MARKET_DATA_DELETE, [date]);
         await pool_1.pool.query(queries_1.queries.BULK_MARKET_DATA, [feedInserts]);
         return feedInserts;
     }

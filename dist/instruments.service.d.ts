@@ -1,5 +1,5 @@
-import { CreateInstrumentDto } from './dto/create-instrument.dto';
-import { UpdateInstrumentDto } from './dto/update-instrument.dto';
+import { CreateInstrumentDto } from "./instruments/dto/create-instrument.dto";
+import { UpdateInstrumentDto } from "./instruments/dto/update-instrument.dto";
 export declare class InstrumentsService {
     create(dto: CreateInstrumentDto): Promise<{
         instrument_name: string;

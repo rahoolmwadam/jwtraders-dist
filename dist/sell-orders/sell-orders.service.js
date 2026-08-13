@@ -13,9 +13,9 @@ exports.SellOrdersService = void 0;
 const common_1 = require("@nestjs/common");
 const pool_1 = require("../db/pool");
 const queries_1 = require("../db/queries");
-const instruments_service_1 = require("../instruments/instruments.service");
 const open_orders_service_1 = require("../open_orders/open_orders.service");
 const system_parameters_service_1 = require("../system-parameters/system-parameters.service");
+const instruments_service_1 = require("../instruments.service");
 let SellOrdersService = class SellOrdersService {
     openOrderService;
     systemParametersService;

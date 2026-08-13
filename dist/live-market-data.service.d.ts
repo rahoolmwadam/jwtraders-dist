@@ -1,7 +1,7 @@
-import { CreateLiveMarketDatumDto } from './dto/create-live-market-datum.dto';
-import { UpdateLiveMarketDatumDto } from './dto/update-live-market-datum.dto';
-import { InstrumentsService } from "../instruments/instruments.service";
+import { CreateLiveMarketDatumDto } from './live-market-data/dto/create-live-market-datum.dto';
+import { UpdateLiveMarketDatumDto } from './live-market-data/dto/update-live-market-datum.dto';
 import { PriceService } from './price.service';
+import { InstrumentsService } from './instruments.service';
 export declare class LiveMarketDataService {
     private readonly instrumentService;
     private readonly priceService;

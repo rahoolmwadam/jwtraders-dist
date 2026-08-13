@@ -1,4 +1,4 @@
-import { LiveMarketDataService } from './live-market-data.service';
+import { LiveMarketDataService } from '../live-market-data.service';
 import { CreateLiveMarketDatumDto } from './dto/create-live-market-datum.dto';
 import { UpdateLiveMarketDatumDto } from './dto/update-live-market-datum.dto';
 import { AppService } from "../app.service";

@@ -11,17 +11,16 @@ const common_1 = require("@nestjs/common");
 const common_module_1 = require("../common.module");
 const instruments_module_1 = require("../instruments/instruments.module");
 const live_market_data_controller_1 = require("./live-market-data.controller");
-const live_market_data_service_1 = require("./live-market-data.service");
-const price_service_1 = require("./price.service");
-const axios_1 = require("@nestjs/axios");
+const live_market_data_service_1 = require("../live-market-data.service");
 let LiveMarketDataModule = class LiveMarketDataModule {
 };
 exports.LiveMarketDataModule = LiveMarketDataModule;
 exports.LiveMarketDataModule = LiveMarketDataModule = __decorate([
     (0, common_1.Module)({
         controllers: [live_market_data_controller_1.LiveMarketDataController],
-        providers: [live_market_data_service_1.LiveMarketDataService, price_service_1.PriceService],
-        imports: [instruments_module_1.InstrumentsModule, common_module_1.CommonModule, axios_1.HttpModule]
+        providers: [live_market_data_service_1.LiveMarketDataService],
+        imports: [instruments_module_1.InstrumentsModule, common_module_1.CommonModule],
+        exports: [live_market_data_service_1.LiveMarketDataService]
     })
 ], LiveMarketDataModule);
 //# sourceMappingURL=live-market-data.module.js.map

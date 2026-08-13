@@ -12,14 +12,19 @@ const app_service_1 = require("./app.service");
 const csv_service_1 = require("./csv.service");
 const backup_service_1 = require("./backup.service");
 const server_control_service_1 = require("./server-control.service");
+const price_service_1 = require("./price.service");
+const axios_1 = require("@nestjs/axios");
+const live_market_data_service_1 = require("./live-market-data.service");
+const instruments_service_1 = require("./instruments.service");
 let CommonModule = class CommonModule {
 };
 exports.CommonModule = CommonModule;
 exports.CommonModule = CommonModule = __decorate([
     (0, common_1.Global)(),
     (0, common_1.Module)({
-        providers: [app_service_1.AppService, csv_service_1.CsvService, backup_service_1.BackupService, server_control_service_1.ServerControlService],
-        exports: [app_service_1.AppService, csv_service_1.CsvService, backup_service_1.BackupService, server_control_service_1.ServerControlService],
+        imports: [axios_1.HttpModule],
+        providers: [app_service_1.AppService, csv_service_1.CsvService, backup_service_1.BackupService, server_control_service_1.ServerControlService, price_service_1.PriceService, live_market_data_service_1.LiveMarketDataService, instruments_service_1.InstrumentsService],
+        exports: [app_service_1.AppService, csv_service_1.CsvService, backup_service_1.BackupService, server_control_service_1.ServerControlService, price_service_1.PriceService, live_market_data_service_1.LiveMarketDataService, instruments_service_1.InstrumentsService],
     })
 ], CommonModule);
 //# sourceMappingURL=common.module.js.map
