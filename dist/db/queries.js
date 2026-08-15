@@ -203,8 +203,10 @@ left join instruments i on
 	i.instrument_id = oo.instrument_id
 left join customers c on
 	c.customer_id = oo.customer_id
+left join stock_list sl on 
+	sl.instrument_id = oo.instrument_id 
 where
-	oo.market_type = ?
+	oo.market_type = 'indian'
 	and oo.instrument_id = i.instrument_id
 order by
 	i.instrument_name asc,
@@ -300,7 +302,13 @@ slv.market_type = ? and
 slv.instrument_id 
 order by open_order_count  desc
 `,
-    GET_STOCK_LIST_BY_ID: `SELECT * FROM stock_list WHERE stock_list_id = ?`,
+    GET_STOCK_LIST_BY_ID: `select *, 
+case when slv.market_type in ('us', 'crypto') then order_value * 85 else order_value end as order_value_inr 
+from stock_list_vw slv  
+left join system_params sp on sp.market_type = slv.market_type 
+where 
+slv.stock_list_id  = ?
+order by open_order_count  desc`,
     UPDATE_STOCK_LIST: `update stock_list set investment = ?, parts = ? where stock_list_id = ?`,
     GET_FIB_INFO: `select * from fib_vw f
 left join open_orders oo on oo.order_id = f.order_id
