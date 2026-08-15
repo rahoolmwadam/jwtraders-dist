@@ -26,6 +26,9 @@ let DashboardController = class DashboardController {
     findMain() {
         return this.dashboardService.findMain();
     }
+    findScreener() {
+        return this.dashboardService.findScreener();
+    }
     findCustomerProfits() {
         return this.dashboardService.findCustomerProfits();
     }
@@ -59,6 +62,12 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], DashboardController.prototype, "findMain", null);
+__decorate([
+    (0, common_1.Get)('screener'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], DashboardController.prototype, "findScreener", null);
 __decorate([
     (0, common_1.Get)('customer-profits'),
     __metadata("design:type", Function),

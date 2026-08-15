@@ -271,6 +271,7 @@ WHERE instrument_id = ?
     DELETE_INSTRUMENT: 'DELETE FROM instruments WHERE instrument_id=?',
     GET_DASHBORAD_DATA: `select * from dashboard_vw`,
     GET_DASHBORAD_MAIN_DATA: `select * from dashboard_main_vw where market_type = 'MAIN'`,
+    GET_DASHBORAD_SCREENER_DATA: `select * from stock_list_dashboard_vw`,
     GET_CUSTOMER_PROFITS: `
   select * from sell_orders so 
 left join customer_profits cp on cp.sell_order_id = so.sell_order_id 

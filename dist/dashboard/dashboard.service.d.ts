@@ -4,6 +4,7 @@ export declare class DashboardService {
     constructor(auth: AuthService);
     findAll(): Promise<import("mysql2").QueryResult>;
     findMain(): Promise<any>;
+    findScreener(): Promise<any>;
     findCustomerProfits(): Promise<import("mysql2").QueryResult>;
     findCustomerProfitsMonthly(type: string): Promise<import("mysql2").QueryResult>;
     findCustomerProfitsDaily(type: string): Promise<import("mysql2").QueryResult>;

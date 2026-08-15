@@ -50,6 +50,7 @@ export declare const queries: {
     DELETE_INSTRUMENT: string;
     GET_DASHBORAD_DATA: string;
     GET_DASHBORAD_MAIN_DATA: string;
+    GET_DASHBORAD_SCREENER_DATA: string;
     GET_CUSTOMER_PROFITS: string;
     GET_CUSTOMER_PROFITS_MONTHLY: string;
     GET_CUSTOMER_PROFITS_DAILY: string;
