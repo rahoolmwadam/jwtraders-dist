@@ -206,7 +206,7 @@ left join customers c on
 left join stock_list sl on 
 	sl.instrument_id = oo.instrument_id 
 where
-	oo.market_type = 'indian'
+	oo.market_type = ?
 	and oo.instrument_id = i.instrument_id
 order by
 	i.instrument_name asc,
