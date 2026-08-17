@@ -17,7 +17,7 @@ const rxjs_1 = require("rxjs");
 let PriceService = PriceService_1 = class PriceService {
     httpService;
     logger = new common_1.Logger(PriceService_1.name);
-    url = 'https://fapi.binance.com/fapi/v1/ticker/price';
+    url = 'http://fapi.binance.com/fapi/v1/ticker/price';
     targetSymbols = ['ETHUSDT', 'XAGUSDT', 'XAUUSDT', 'CLUSDT', 'NATGASUSDT'];
     constructor(httpService) {
         this.httpService = httpService;
