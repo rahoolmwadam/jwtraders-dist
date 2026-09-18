@@ -113,7 +113,10 @@ let SellOrdersService = class SellOrdersService {
                 net_profit = net_profit * order.usd_value;
             }
             if (order.customer_id) {
-                const loan_profit = order.net_profit_bl - (order.net_profit_bl * (1 - (order.loan_percent / 100)));
+                let loan_profit = order.net_profit_bl - (order.net_profit_bl * (1 - (order.loan_percent / 100)));
+                if (['us', 'crypto'].includes(order.market_type)) {
+                    loan_profit = loan_profit * order.usd_value;
+                }
                 customerProfitsData.push([order.customer_id, loan_profit, order.sell_date, order.sell_order_id, 'Y']);
             }
             for (let customer_id in customerContribMap) {
